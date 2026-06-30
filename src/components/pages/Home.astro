@@ -164,7 +164,7 @@ const webPageLd = {
       <h1 set:html={c.heroTitle} />
       <p class="lead hero-lead">{c.heroLead}</p>
       <div class="cluster hero-cta">
-        <a class="btn btn--grad btn--lg" href={lp(ROUTES.contact)}>{t.cta.primary}</a>
+        <a class="btn btn--grad btn--lg" href={company.bookingUrl} target="_blank" rel="noopener">{t.cta.primary}</a>
         <a class="btn btn--ghost btn--lg" href={lp(ROUTES.services)}>{t.cta.secondary}</a>
       </div>
       <div class="trust">

@@ -1,6 +1,7 @@
 ---
 import { getLang, localizePath } from '../i18n/utils';
 import { useUI, ROUTES } from '../i18n/ui';
+import { company } from '../i18n/company';
 
 interface Props {
   title?: string;
@@ -29,7 +30,7 @@ const { title = defaults[lang].title, text = defaults[lang].text } = Astro.props
       <p>{text}</p>
     </div>
     <div class="cta-actions">
-      <a class="btn btn--light btn--lg" href={lp(ROUTES.contact)}>{t.cta.primary}</a>
+      <a class="btn btn--light btn--lg" href={company.bookingUrl} target="_blank" rel="noopener">{t.cta.primary}</a>
       <a class="cta-mail" href={`mailto:us@twouring.com`}>us@twouring.com</a>
     </div>
   </div>

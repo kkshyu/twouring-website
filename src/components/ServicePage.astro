@@ -62,7 +62,7 @@ const breadcrumbLd = {
       {d.highlights.map((h) => (<span class="hero-pill"><Icon name="check" size={16} />{h}</span>))}
     </div>
     <div class="cluster hero-cta">
-      <a class="btn btn--primary btn--lg" href={lp(ROUTES.contact)}>{t.cta.primary}</a>
+      <a class="btn btn--primary btn--lg" href={company.bookingUrl} target="_blank" rel="noopener">{t.cta.primary}</a>
       <a class="btn btn--ghost btn--lg" href={lp(ROUTES.cases)}>{t.cta.viewCases}</a>
     </div>
   </PageHero>

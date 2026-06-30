@@ -18,8 +18,12 @@ const c = {
   zh: {
     eyebrow: '聯絡我們',
     title: '先聊 30 分鐘，判斷最值得投入的下一步',
-    lead: '留下需求，我們會在兩個工作日內回覆，並安排一場 30 分鐘的資格判斷會議。',
-    metaDescription: '聯絡遊遊股份有限公司（Twouring 遊遊）：預約 30 分鐘數位遊牧、AI 與遠距工作顧問診斷會議。聯絡信箱 us@twouring.com。',
+    lead: '想直接約時間就點預約；或留下需求，我們會在兩個工作日內回覆。',
+    metaDescription: '聯絡遊遊股份有限公司（Twouring 遊遊）：預約 30 分鐘 AI、數位轉型與顧問診斷會議。聯絡信箱 us@twouring.com。',
+    bookTitle: '想直接約時間？',
+    bookText: '挑一個方便的時段，直接預約 30 分鐘線上診斷會議。',
+    bookBtn: '預約 30 分鐘時段',
+    orLeave: '或在下方留下需求',
     prepareTitle: '會議前，可以先準備',
     prepare: ['你想解決的問題或目標', '目前的進度與既有資源', '時程與大致預算範圍', '誰是決策者與內部窗口'],
     form: {
@@ -46,8 +50,12 @@ const c = {
   en: {
     eyebrow: 'Contact',
     title: 'Start with a 30-minute call to find the next step worth taking',
-    lead: 'Leave your details and we’ll reply within two business days and set up a 30-minute qualification call.',
-    metaDescription: 'Contact Twouring Co., Ltd. (Twouring 遊遊): book a 30-minute diagnostic call on digital nomadism, AI and remote work. Email us@twouring.com.',
+    lead: 'Pick a time to book directly, or leave your details and we’ll reply within two business days.',
+    metaDescription: 'Contact Twouring Co., Ltd. (Twouring 遊遊): book a 30-minute AI, digital-transformation and advisory diagnostic call. Email us@twouring.com.',
+    bookTitle: 'Prefer to pick a time?',
+    bookText: 'Choose a slot that suits you and book a 30-minute online diagnostic directly.',
+    bookBtn: 'Book a 30-min slot',
+    orLeave: 'Or leave your details below',
     prepareTitle: 'Before the call, it helps to have',
     prepare: ['The problem or goal you want to solve', 'Current progress and existing resources', 'Timeline and rough budget range', 'Who the decision-maker and internal contact are'],
     form: {
@@ -80,6 +88,15 @@ const c = {
     <div class="container contact-grid">
       <!-- 表單 -->
       <div class="form-col">
+        <div class="book-callout">
+          <div class="book-copy">
+            <h2>{c.bookTitle}</h2>
+            <p>{c.bookText}</p>
+          </div>
+          <a class="btn btn--primary" href={company.bookingUrl} target="_blank" rel="noopener">{c.bookBtn}</a>
+        </div>
+        <p class="or-divider"><span>{c.orLeave}</span></p>
+
         <form id="contact-form" data-endpoint={ENDPOINT} novalidate>
           <div class="field-row">
             <div class="field">
@@ -154,6 +171,12 @@ const c = {
 
 <style>
   .contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; align-items: start; }
+  .book-callout { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; flex-wrap: wrap; background: var(--grad-soft); border: 1px solid #ffe0d6; border-radius: var(--radius-lg); padding: 1.3rem 1.5rem; }
+  .book-copy h2 { font-size: var(--fs-500); }
+  .book-copy p { color: var(--c-muted); font-size: 0.94rem; margin-top: 0.3rem; }
+  .book-callout .btn { flex-shrink: 0; }
+  .or-divider { display: flex; align-items: center; gap: 0.9rem; color: var(--c-faint); font-size: 0.88rem; margin: 1.6rem 0; }
+  .or-divider::before, .or-divider::after { content: ""; flex: 1; height: 1px; background: var(--c-line); }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .field { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
   .field label { font-family: var(--font-head); font-weight: 700; font-size: 0.92rem; }

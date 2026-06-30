@@ -29,6 +29,8 @@ export const company = {
   slogan: 'Tour your life together',
   // LinkedIn 為主要正式社群渠道（vendor §7.3 / §14.4）。如更新 slug 改這一處即可。
   linkedin: 'https://www.linkedin.com/company/遊遊有限公司/',
+  // 預約 30 分鐘診斷會議（Google Calendar 預約頁）。全站預約 CTA 皆指向此處。
+  bookingUrl: 'https://calendar.app.google/73hcBtdZZ6cGRrak9',
   siteUrl: 'https://www.twouring.com',
 } as const;
 
