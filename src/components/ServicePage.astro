@@ -71,7 +71,7 @@ const breadcrumbLd = {
   <section class="section section--surface">
     <div class="container">
       <div class="section-head"><p class="eyebrow">{t.common.painPoints}</p><h2>{d.painTitle}</h2></div>
-      <ul class="grid grid--2 pain-grid">
+      <ul class="grid grid--2 pain-grid" role="list">
         {d.painPoints.map((p) => (
           <li class="pain-card"><span class="pain-mark" aria-hidden="true"><Icon name="x" size={18} /></span><p>{p}</p></li>
         ))}
@@ -86,7 +86,7 @@ const breadcrumbLd = {
         <p class="eyebrow">{t.common.ourSolution}</p>
         <h2>{d.solutionTitle}</h2>
         <p class="lead">{d.solutionLead}</p>
-        <ul class="solution-list">
+        <ul class="solution-list" role="list">
           {d.solutionPoints.map((s) => (<li><Icon name="check" size={20} class="sl-icon" /><span>{s}</span></li>))}
         </ul>
       </div>
@@ -119,11 +119,11 @@ const breadcrumbLd = {
     <div class="container fit-grid">
       <div class="fit-col fit-good">
         <h3><Icon name="check" size={22} /> {t.common.goodFit}</h3>
-        <ul>{d.goodFit.map((g) => (<li>{g}</li>))}</ul>
+        <ul role="list">{d.goodFit.map((g) => (<li>{g}</li>))}</ul>
       </div>
       <div class="fit-col fit-bad">
         <h3><Icon name="x" size={22} /> {t.common.notFit}</h3>
-        <ul>{d.notFit.map((g) => (<li>{g}</li>))}</ul>
+        <ul role="list">{d.notFit.map((g) => (<li>{g}</li>))}</ul>
       </div>
     </div>
   </section>
@@ -132,9 +132,9 @@ const breadcrumbLd = {
   <section class="section section--surface">
     <div class="container">
       <div class="section-head center"><p class="eyebrow">{t.common.process}</p><h2>{lang === 'zh' ? '從一場會議到可持續的成果' : 'From one call to lasting results'}</h2></div>
-      <ol class="steps">
+      <ol class="steps" role="list">
         {proc[lang].map((s, i) => (
-          <li class="step"><span class="step-num">{i + 1}</span><div><h4>{s.t}</h4><p>{s.d}</p></div></li>
+          <li class="step"><span class="step-num">{i + 1}</span><div><h3>{s.t}</h3><p>{s.d}</p></div></li>
         ))}
       </ol>
     </div>
@@ -144,7 +144,7 @@ const breadcrumbLd = {
     <section class="section">
       <div class="container">
         <div class="section-head"><p class="eyebrow">{t.common.deliverables}</p><h2>{lang === 'zh' ? '你會拿到什麼' : 'What you receive'}</h2></div>
-        <ul class="grid grid--2 deliver-grid">
+        <ul class="grid grid--2 deliver-grid" role="list">
           {d.deliverables.map((x) => (<li class="deliver-item"><Icon name="doc" size={20} class="di-icon" /><span>{x}</span></li>))}
         </ul>
       </div>
@@ -196,7 +196,7 @@ const breadcrumbLd = {
   .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; counter-reset: step; }
   .step { display: grid; gap: 0.6rem; }
   .step-num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--grad-brand); color: #fff; font-family: var(--font-head); font-weight: 800; }
-  .step h4 { font-size: var(--fs-400); }
+  .step h3 { font-size: var(--fs-400); }
   .step p { font-size: 0.92rem; color: var(--c-muted); }
 
   .deliver-grid { gap: 0.8rem; }

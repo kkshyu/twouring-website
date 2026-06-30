@@ -6,7 +6,7 @@ import { company } from '../i18n/company';
 const lang = getLang(Astro.currentLocale);
 const t = useUI(lang);
 const lp = (p: string) => localizePath(p, lang);
-const year = 2026; // 建置年份；可改為動態
+const year = new Date().getFullYear(); // 建置時求值
 ---
 
 <footer class="site-footer">
@@ -22,7 +22,7 @@ const year = 2026; // 建置年份；可改為動態
 
     <nav class="footer-col" aria-label={t.footer.servicesTitle}>
       <h2>{t.footer.servicesTitle}</h2>
-      <ul>
+      <ul role="list">
         {SERVICE_NAV.map((s) => (<li><a href={lp(s.path)}>{t.serviceNav[s.key]}</a></li>))}
         <li><a href={lp(ROUTES.services)}>{t.nav.servicesOverview}</a></li>
       </ul>
@@ -30,7 +30,7 @@ const year = 2026; // 建置年份；可改為動態
 
     <nav class="footer-col" aria-label={t.footer.companyTitle}>
       <h2>{t.footer.companyTitle}</h2>
-      <ul>
+      <ul role="list">
         <li><a href={lp(ROUTES.about)}>{t.nav.about}</a></li>
         <li><a href={lp(ROUTES.cases)}>{t.nav.cases}</a></li>
         <li><a href={lp(ROUTES.contact)}>{t.nav.contact}</a></li>
@@ -39,7 +39,7 @@ const year = 2026; // 建置年份；可改為動態
 
     <div class="footer-col footer-contact">
       <h2>{t.footer.contactTitle}</h2>
-      <ul>
+      <ul role="list">
         <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
         <li>{company.address[lang]}</li>
       </ul>
@@ -48,7 +48,7 @@ const year = 2026; // 建置年份；可改為動態
 
   <div class="container footer-legal-row">
     <div class="footer-legal">
-      <p class="legal-name">{company.legalName[lang]}{lang === 'zh' ? '' : ''} · {company.legalName[lang === 'zh' ? 'en' : 'zh']}</p>
+      <p class="legal-name">{company.legalName[lang]} · <span lang={lang === 'zh' ? 'en' : 'zh-Hant'}>{company.legalName[lang === 'zh' ? 'en' : 'zh']}</span></p>
       <p class="legal-meta">
         <span>{t.footer.taxIdLabel}：{company.taxId}</span>
         <span>{lang === 'zh' ? '代表人' : 'Representative'}：{company.representative[lang]}</span>
@@ -56,7 +56,7 @@ const year = 2026; // 建置年份；可改為動態
       <p class="legal-note">{t.footer.legalNote}</p>
     </div>
     <div class="footer-bottom">
-      <ul class="footer-policies">
+      <ul class="footer-policies" role="list">
         <li><a href={lp(ROUTES.privacy)}>{t.footer.privacy}</a></li>
         <li><a href={lp(ROUTES.terms)}>{t.footer.terms}</a></li>
         <li><a href={lp(ROUTES.cookies)}>{t.footer.cookies}</a></li>

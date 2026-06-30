@@ -126,7 +126,7 @@ const personLd = {
   <!-- 品牌故事 -->
   <section class="section">
     <div class="container container--narrow">
-      <p class="eyebrow">{c.storyTitle}</p>
+      <h2 class="eyebrow">{c.storyTitle}</h2>
       <div class="flow story">
         {c.story.map((p) => (<p>{p}</p>))}
       </div>
@@ -158,9 +158,9 @@ const personLd = {
         <a class="kk-linkedin" href={company.linkedin} target="_blank" rel="noopener">LinkedIn →</a>
       </div>
       <div class="kk-body">
-        <p class="eyebrow">{c.kkTitle}</p>
+        <h2 class="eyebrow">{c.kkTitle}</h2>
         <p class="lead">{c.kkLead}</p>
-        <ul class="kk-roles">
+        <ul class="kk-roles" role="list">
           {c.kkRoles.map((r) => (<li><Icon name="check" size={18} /> {r}</li>))}
         </ul>
         <p class="kk-note">{c.kkNote}</p>
@@ -187,7 +187,7 @@ const personLd = {
   <!-- 登記資訊 -->
   <section class="section">
     <div class="container container--narrow">
-      <div class="section-head"><p class="eyebrow"><Icon name="building" size={16} /> {c.regTitle}</p></div>
+      <div class="section-head"><h2 class="eyebrow"><Icon name="building" size={16} /> {c.regTitle}</h2></div>
       <dl class="reg-table">
         {reg.map(([k, v]) => (<div class="reg-row"><dt>{k}</dt><dd>{v}</dd></div>))}
       </dl>

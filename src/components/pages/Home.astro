@@ -14,7 +14,7 @@ const lp = (p: string) => localizePath(p, lang);
 const c = {
   zh: {
     metaDescription:
-      '遊遊股份有限公司（Twouring 遊遊）用 AI、數位工具、軟體與顧問方法，解決企業、政府與城市的營運、轉型與人才問題。四大入口：企業 AI 與數位轉型、城市與政府、場域與商家、國際交流與參訪。',
+      '遊遊股份有限公司（Twouring 遊遊）以 AI、數位工具、軟體與顧問方法，協助企業、政府與城市解決營運、數位轉型與人才問題。',
     heroEyebrow: 'Tour your life together',
     heroTitle: '用科技解決<span class="text-grad">企業、政府與城市</span>的問題',
     heroLead:
@@ -61,7 +61,7 @@ const c = {
     stats: [
       { n: '2025–2028', l: '國發會 AI 新十大建設，全面協助中小企業導入 AI' },
       { n: '兆元', l: '觀光署 Tourism 2030（2026–2030）目標兆元觀光產業' },
-      { n: '18.5M', l: '全球遠距與數位遊牧人才規模（MBO Partners 2025）' },
+      { n: '18.5M', l: '美國數位遊牧者規模（MBO Partners 2025）' },
       { n: 'Asia', l: '日韓與東南亞城市、企業與新創的科技交流連結' },
     ],
     casesEyebrow: '案例',
@@ -71,7 +71,7 @@ const c = {
   },
   en: {
     metaDescription:
-      'Twouring Co., Ltd. uses AI, digital tools, software and advisory to solve operations, transformation and talent problems for companies, governments and cities. Four entry points: enterprise AI & digital transformation, cities & government, venues, and international exchange.',
+      'Twouring Co., Ltd. uses AI, software and advisory to solve operations, digital-transformation and talent problems for companies, governments and cities.',
     heroEyebrow: 'Tour your life together',
     heroTitle: 'Technology that solves problems for <span class="text-grad">companies, governments and cities</span>',
     heroLead:
@@ -82,10 +82,10 @@ const c = {
     entryTitle: 'What you can buy',
     entryLead: 'Each entry point has clear pain points, solutions, packages and a starting price. Start with a 30-minute diagnostic.',
     entryDesc: {
-      city: 'Upgrade digital nomadism from an event into a city talent, tourism and brand strategy.',
-      aiRemote: 'Diagnose first, then adopt AI and remote work — grounded in tools, training and ROI.',
-      venue: 'Make stays, cafés and local brands Nomad Ready international hosting nodes.',
-      international: 'Design lasting digital-nomad and corporate exchange between Taiwan and Asian cities.',
+      city: 'Solve city and policy problems with technology, data and talent strategies — digital nomadism and local revitalisation among the applications.',
+      aiRemote: 'Diagnose your processes first, then adopt AI, digital tools and software to solve operations problems and land on ROI.',
+      venue: 'Use digital tools and English-ready information so local businesses get found, understood and visited by international guests.',
+      international: 'Design lasting technology and talent exchange between Taiwan and Asian cities and companies.',
     },
     ecoEyebrow: 'Strategy × delivery',
     ecoTitle: 'One advisory judgment, backed by a full delivery ecosystem',
@@ -114,11 +114,11 @@ const c = {
       { icon: 'globe', t: 'City & global links', d: 'Real exchange with cities and startup/nomad communities in Japan, Korea and SEA.' },
     ],
     marketEyebrow: 'Market context',
-    marketTitle: 'Digital nomadism has shifted from a lifestyle to a city and company issue',
+    marketTitle: 'AI and digital transformation are now an unavoidable question for companies, governments and cities',
     stats: [
-      { n: '18.5M', l: 'U.S. digital nomads (MBO Partners 2025)' },
-      { n: '2026–2030', l: 'Tourism 2030 programme, targeting a trillion-NTD tourism economy' },
       { n: '2025–2028', l: 'NDC Ten AI Initiatives helping SMEs adopt AI' },
+      { n: '2026–2030', l: 'Tourism 2030 programme, targeting a trillion-NTD tourism economy' },
+      { n: '18.5M', l: 'U.S. digital nomads (MBO Partners 2025)' },
       { n: 'Asia', l: 'Startup & nomad community links across Japan, Korea and SEA' },
     ],
     casesEyebrow: 'Work',
@@ -169,7 +169,7 @@ const webPageLd = {
       </div>
       <div class="trust">
         <span class="trust-label">{c.trustLabel}</span>
-        <ul class="trust-list">
+        <ul class="trust-list" role="list">
           {c.trust.map((x) => (<li>{x}</li>))}
         </ul>
       </div>
@@ -225,7 +225,7 @@ const webPageLd = {
         <p class="eyebrow">{c.methodEyebrow}</p>
         <h2>{c.methodTitle}</h2>
       </div>
-      <ol class="method-steps">
+      <ol class="method-steps" role="list">
         {c.method.map((m, i) => (
           <li class="method-step">
             <span class="method-num">{i + 1}</span>

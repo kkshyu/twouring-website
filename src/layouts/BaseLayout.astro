@@ -34,20 +34,24 @@ const enHref = base + localizePath(path, 'en');
 const ogImageAbs = ogImage.startsWith('http') ? ogImage : base + ogImage;
 const fullTitle = path === '/' ? title : `${title}｜${company.brand}`;
 
+const knowsAbout = lang === 'zh'
+  ? ['AI 導入', '數位轉型', '軟體開發', '遠距工作', '城市策略顧問', '地方創生', '數位遊牧', '技術顧問']
+  : ['AI adoption', 'Digital transformation', 'Software development', 'Remote work', 'City strategy advisory', 'Local revitalisation', 'Digital nomadism', 'Technology consulting'];
+
 const orgLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   '@id': base + '/#organization',
-  name: company.legalName.zh,
+  name: lang === 'zh' ? company.legalName.zh : company.legalName.en,
   alternateName: [company.brand, company.legalName.en],
-  url: base,
+  url: base + '/',
   logo: base + '/brand/twouring-logo.svg',
   image: ogImageAbs,
   email: company.email,
   slogan: company.slogan,
   taxID: company.taxId,
   foundingDate: company.founded,
-  founder: { '@type': 'Person', name: '徐愷' },
+  founder: { '@type': 'Person', name: lang === 'zh' ? '徐愷' : 'Kai Hsu' },
   address: {
     '@type': 'PostalAddress',
     streetAddress: '開封街一段37號11樓',
@@ -58,7 +62,7 @@ const orgLd = {
   },
   areaServed: ['TW', 'Asia'],
   sameAs: [company.linkedin],
-  knowsAbout: ['AI 導入', '數位轉型', '軟體開發', '遠距工作', '城市策略顧問', '地方創生', '數位遊牧', '技術顧問'],
+  knowsAbout,
 };
 const allLd = [orgLd, ...jsonLd];
 ---
@@ -106,7 +110,7 @@ const allLd = [orgLd, ...jsonLd];
   <body>
     <a class="skip-link" href="#main">{t.skipToContent}</a>
     <Header />
-    <main id="main">
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer />

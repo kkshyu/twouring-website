@@ -32,7 +32,7 @@ export const legal: Record<LegalSlug, { zh: LegalDoc; en: LegalDoc }> = {
     en: {
       title: 'Privacy Policy',
       updated: 'Last updated: 2026-06-30',
-      intro: 'Twouring Co., Ltd. (“Twouring”, “we”) respects the protection of your personal data. This policy explains how we collect, use and protect the information you provide on this website.',
+      intro: 'Twouring Co., Ltd. (“Twouring 遊遊”, “we”) respects the protection of your personal data. This policy explains how we collect, use and protect the information you provide on this website.',
       metaDescription: 'Twouring Co., Ltd. Privacy Policy: how we collect, use, store and protect your personal data, and your rights to access, correct and delete it.',
       blocks: [
         { heading: 'Information we collect', paras: ['To provide advisory services, project collaboration, event registration, content subscription and replies, we may collect your name, company, job title, email, phone, message content and website usage records.'] },

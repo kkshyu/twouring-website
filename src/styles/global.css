@@ -106,7 +106,7 @@ h4 { font-size: var(--fs-500); }
 p { text-wrap: pretty; }
 
 a { color: var(--c-accent-strong); text-decoration: none; transition: color 0.15s var(--ease); }
-a:hover { color: var(--c-accent); }
+a:hover { color: var(--c-accent-deep); }
 
 ul, ol { padding: 0; list-style: none; }
 
@@ -168,7 +168,7 @@ ul, ol { padding: 0; list-style: none; }
   display: inline-flex; align-items: center; gap: 0.4em;
   font-size: var(--fs-300); font-weight: 600; font-family: var(--font-head);
   padding: 0.3em 0.8em; border-radius: var(--radius-pill);
-  background: var(--c-accent-soft); color: var(--c-accent-strong);
+  background: var(--c-accent-soft); color: var(--c-accent-deep);
 }
 
 /* ---- 卡片格線 ---- */

@@ -97,10 +97,10 @@ const c = {
         </div>
         <p class="or-divider"><span>{c.orLeave}</span></p>
 
-        <form id="contact-form" data-endpoint={ENDPOINT} novalidate>
+        <form id="contact-form" data-endpoint={ENDPOINT} data-email={company.email} novalidate>
           <div class="field-row">
             <div class="field">
-              <label for="cf-name">{c.form.name} <span class="req">*</span></label>
+              <label for="cf-name">{c.form.name} <span class="req" aria-hidden="true">*</span></label>
               <input id="cf-name" name="name" type="text" required autocomplete="name" />
             </div>
             <div class="field">
@@ -109,7 +109,7 @@ const c = {
             </div>
           </div>
           <div class="field">
-            <label for="cf-email">{c.form.email} <span class="req">*</span></label>
+            <label for="cf-email">{c.form.email} <span class="req" aria-hidden="true">*</span></label>
             <input id="cf-email" name="email" type="email" required autocomplete="email" />
           </div>
           <div class="field">
@@ -120,7 +120,7 @@ const c = {
             </select>
           </div>
           <div class="field">
-            <label for="cf-message">{c.form.message} <span class="req">*</span></label>
+            <label for="cf-message">{c.form.message} <span class="req" aria-hidden="true">*</span></label>
             <textarea id="cf-message" name="message" rows="5" required placeholder={c.form.messagePlaceholder}></textarea>
           </div>
           <label class="consent">
@@ -133,8 +133,8 @@ const c = {
         </form>
 
         <div class="form-success" id="cf-success" hidden>
-          <span class="success-icon"><Icon name="check" size={30} /></span>
-          <h2>{c.form.successTitle}</h2>
+          <span class="success-icon" aria-hidden="true"><Icon name="check" size={30} /></span>
+          <h2 tabindex="-1">{c.form.successTitle}</h2>
           <p>{c.form.success}</p>
         </div>
       </div>
@@ -143,7 +143,7 @@ const c = {
       <aside class="info-col">
         <div class="info-card">
           <h2>{c.infoTitle}</h2>
-          <ul class="info-list">
+          <ul class="info-list" role="list">
             <li>
               <span class="info-ic"><Icon name="mail" size={18} /></span>
               <div><span class="info-label">{c.emailLabel}</span><a href={`mailto:${company.email}`}>{company.email}</a></div>
@@ -162,7 +162,7 @@ const c = {
 
         <div class="prepare-card">
           <h3>{c.prepareTitle}</h3>
-          <ul>{c.prepare.map((p) => (<li><Icon name="check" size={16} /> {p}</li>))}</ul>
+          <ul role="list">{c.prepare.map((p) => (<li><Icon name="check" size={16} /> {p}</li>))}</ul>
         </div>
       </aside>
     </div>
@@ -187,7 +187,8 @@ const c = {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .field textarea { resize: vertical; }
-  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--c-accent); box-shadow: var(--ring); }
+  /* 透明 outline 在 Windows forced-colors 模式會被系統色描出，保住焦點框 */
+  .field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid transparent; outline-offset: 2px; border-color: var(--c-accent); box-shadow: var(--ring); }
 
   .consent { display: flex; gap: 0.6rem; align-items: flex-start; margin: 0.4rem 0 1.2rem; font-size: 0.92rem; color: var(--c-muted); }
   .consent input { margin-top: 0.25rem; width: 18px; height: 18px; accent-color: var(--c-accent-strong); flex-shrink: 0; }
@@ -226,7 +227,7 @@ const c = {
   const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement | null;
   const successEl = document.getElementById('cf-success');
 
-  const EMAIL = 'us@twouring.com';
+  const EMAIL = form?.dataset.email || 'us@twouring.com';
   const IS_EN = document.documentElement.lang.startsWith('en');
 
   function buildMailto(data: Record<string, string>): string {
@@ -269,6 +270,8 @@ const c = {
       const showSuccess = () => {
         form.hidden = true;
         successEl.hidden = false;
+        // 把焦點移入成功標題，讓螢幕報讀者收到回饋（標題帶 tabindex="-1"）。
+        (successEl.querySelector('h2') as HTMLElement | null)?.focus();
         successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
       const showError = () => {
@@ -287,14 +290,20 @@ const c = {
       }
 
       try {
-        // Apps Script 無法回傳 CORS 標頭，使用 no-cors：資料仍送達，回應為 opaque。
-        // fetch resolve 即視為送出成功（真正的傳輸失敗會 reject → 退回 mailto）。
-        await fetch(endpoint, {
+        // Apps Script /exec 會 302 轉址到 googleusercontent.com，後者回應帶 Access-Control-Allow-Origin: *，
+        // 故用預設 cors 模式即可讀取 JSON 結果、真正判斷成敗（取代 no-cors 的 opaque 誤報）。
+        // body 為 URLSearchParams（application/x-www-form-urlencoded）屬簡單請求、不觸發 preflight。
+        // 任何失敗（HTTP 非 2xx、ok=false、解析失敗、網路錯誤）都退回 mailto，不再靜默誤報成功。
+        const res = await fetch(endpoint, {
           method: 'POST',
-          mode: 'no-cors',
           body: new URLSearchParams(data),
         });
-        showSuccess();
+        const result = await res.json().catch(() => null);
+        if (res.ok && result && result.ok) {
+          showSuccess();
+        } else {
+          showError();
+        }
       } catch {
         showError();
       }

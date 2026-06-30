@@ -10,6 +10,9 @@
 var NOTIFY_TO = 'us@twouring.com';
 // 工作表名稱（不存在會自動建立）
 var SHEET_NAME = 'Leads';
+// 同一 Email 於此秒數內重複送出視為灌注／誤觸雙擊，靜默略過
+var DEDUPE_WINDOW_SEC = 60;
+var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 function doPost(e) {
   try {
@@ -19,6 +22,23 @@ function doPost(e) {
     if (p.company_url) {
       return _json({ ok: true, skipped: true });
     }
+
+    // server 端驗證：前端可被繞過，必填與 email 格式在此再把關一次
+    var name = String(p.name || '').trim();
+    var email = String(p.email || '').trim();
+    var message = String(p.message || '').trim();
+    if (!name || !email || !message || !EMAIL_RE.test(email)) {
+      return _json({ ok: false, error: 'validation' });
+    }
+
+    // 同一 Email 短時間重複送出 → 靜默接受但不重複寫入／寄信
+    // ponytail: Apps Script 拿不到 client IP，無法 per-IP 限流；真正防濫用靠前端 captcha（見 DEPLOY.md TODO）
+    var cache = CacheService.getScriptCache();
+    var dedupeKey = 'lead:' + email.toLowerCase();
+    if (cache.get(dedupeKey)) {
+      return _json({ ok: true, skipped: true });
+    }
+    cache.put(dedupeKey, '1', DEDUPE_WINDOW_SEC);
 
     var sheet = _getSheet();
     var ts = new Date();

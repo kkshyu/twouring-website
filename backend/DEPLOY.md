@@ -27,8 +27,13 @@
 
 ## 注意
 
-- 前端以 `mode: 'no-cors'` 送出（Apps Script 無法回傳 CORS 標頭）。
-  瀏覽器收到 opaque 回應，網站會「樂觀地」顯示送出成功；
-  實際是否收到請以 Google Sheet 新增列與通知信為準。
+- 前端以預設 `cors` 模式送出並讀取 JSON 回應（`{ ok: true }`）真正判斷成敗。
+  Apps Script `/exec` 會 302 轉址到 `script.googleusercontent.com`，該回應帶
+  `Access-Control-Allow-Origin: *`，故可跨網域讀取結果。任何失敗（HTTP 非 2xx、
+  `ok:false`、解析失敗、網路錯誤）前端都會退回 `mailto:`，不再靜默誤報成功。
+  **改動 `Code.gs` 後務必「管理部署作業 → 編輯 → 新版本」重新部署**，否則線上仍是舊版。
+- 後端已做 server 端驗證（姓名／Email／需求必填、Email 格式）與同一 Email 60 秒去重。
 - 表單含 honeypot 欄位 `company_url` 過濾基本機器人。
-- 若日後流量增加，可在 Apps Script 加上每 IP／每分鐘限流或 reCAPTCHA。
+- **TODO（對外推廣前）**：加上 Cloudflare Turnstile 或 reCAPTCHA v3。Apps Script 拿不到
+  client IP，無法做 per-IP 限流，captcha 才是真正的防濫用手段——需申請金鑰、前端嵌入
+  token、`doPost` 內呼叫驗證 API 後再寫入。

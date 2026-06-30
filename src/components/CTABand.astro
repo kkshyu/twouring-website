@@ -31,13 +31,14 @@ const { title = defaults[lang].title, text = defaults[lang].text } = Astro.props
     </div>
     <div class="cta-actions">
       <a class="btn btn--light btn--lg" href={company.bookingUrl} target="_blank" rel="noopener">{t.cta.primary}</a>
-      <a class="cta-mail" href={`mailto:us@twouring.com`}>us@twouring.com</a>
+      <a class="cta-mail" href={`mailto:${company.email}`}>{company.email}</a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta-band { background: var(--grad-brand-strong); color: #fff; }
+  /* ponytail: 用深紅漸層（非含淺端 #ff8aa0 的 --grad-brand-strong），確保白字在全段皆 ≥5.3:1（WCAG AA） */
+  .cta-band { background: linear-gradient(118deg, #b80030 0%, #d80038 100%); color: #fff; }
   .cta-inner { padding-block: clamp(2.6rem, 6vw, 4rem); display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: center; }
   .cta-copy h2 { color: #fff; font-size: var(--fs-700); max-width: 22ch; }
   .cta-copy p { color: rgba(255,255,255,0.92); margin-top: 0.8rem; max-width: 52ch; }

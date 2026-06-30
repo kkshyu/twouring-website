@@ -64,7 +64,7 @@ const c = {
               <p class="svc-eyebrow">{d.eyebrow}</p>
               <h2>{d.title}</h2>
               <p class="svc-lead">{d.lead}</p>
-              <ul class="svc-highlights">
+              <ul class="svc-highlights" role="list">
                 {d.highlights.map((h) => (<li><Icon name="check" size={16} /> {h}</li>))}
               </ul>
               <a class="btn btn--ghost svc-btn" href={lp(services[s.key].path)}>{c.seeService} <Icon name="arrow" size={18} /></a>
@@ -78,7 +78,7 @@ const c = {
   <section class="section section--surface">
     <div class="container">
       <div class="section-head center"><p class="eyebrow">{c.ladderTitle}</p><h2>{c.ladderLead}</h2></div>
-      <ol class="ladder">
+      <ol class="ladder" role="list">
         {c.ladder.map((l, i) => (
           <li class="ladder-item">
             <span class="ladder-num">{i + 1}</span>

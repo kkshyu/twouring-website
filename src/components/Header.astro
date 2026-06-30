@@ -24,6 +24,7 @@ const otherHref = switchLocaleHref(pathname, lang === 'zh' ? 'en' : 'zh');
             href={lp(ROUTES.services)}
             class:list={['nav-link', { 'is-active': active(ROUTES.services) }]}
             aria-current={active(ROUTES.services) ? 'page' : undefined}
+            aria-haspopup="true"
           >
             {t.nav.services}
             <svg class="caret" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -45,7 +46,7 @@ const otherHref = switchLocaleHref(pathname, lang === 'zh' ? 'en' : 'zh');
     </nav>
 
     <div class="header-actions">
-      <a class="lang-switch" href={otherHref} hreflang={lang === 'zh' ? 'en' : 'zh'} rel="alternate">{t.langSwitch}</a>
+      <a class="lang-switch" href={otherHref} hreflang={lang === 'zh' ? 'en' : 'zh'} lang={lang === 'zh' ? 'en' : 'zh-Hant'} rel="alternate">{t.langSwitch}</a>
       <a class="icon-link" href={company.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
         <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.94 5a2 2 0 11-4 0 2 2 0 014 0zM3.3 8.5h3.3V21H3.3V8.5zM9.3 8.5h3.16v1.7h.05c.44-.83 1.5-1.7 3.1-1.7 3.32 0 3.93 2.18 3.93 5.02V21h-3.3v-5.55c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.92V21H9.3V8.5z"/></svg>
       </a>
@@ -66,10 +67,10 @@ const otherHref = switchLocaleHref(pathname, lang === 'zh' ? 'en' : 'zh');
         <li><a href={lp(ROUTES.services)} class="m-all">{t.nav.servicesOverview} →</a></li>
       </ul>
       <ul class="m-links">
-        <li><a href={lp(ROUTES.cases)}>{t.nav.cases}</a></li>
-        <li><a href={lp(ROUTES.about)}>{t.nav.about}</a></li>
-        <li><a href={lp(ROUTES.contact)}>{t.nav.contact}</a></li>
-        <li><a href={otherHref} hreflang={lang === 'zh' ? 'en' : 'zh'}>{t.langSwitch}</a></li>
+        <li><a href={lp(ROUTES.cases)} aria-current={active(ROUTES.cases) ? 'page' : undefined}>{t.nav.cases}</a></li>
+        <li><a href={lp(ROUTES.about)} aria-current={active(ROUTES.about) ? 'page' : undefined}>{t.nav.about}</a></li>
+        <li><a href={lp(ROUTES.contact)} aria-current={active(ROUTES.contact) ? 'page' : undefined}>{t.nav.contact}</a></li>
+        <li><a href={otherHref} hreflang={lang === 'zh' ? 'en' : 'zh'} lang={lang === 'zh' ? 'en' : 'zh-Hant'}>{t.langSwitch}</a></li>
       </ul>
       <a class="btn btn--primary btn--block" href={company.bookingUrl} target="_blank" rel="noopener">{t.cta.primary}</a>
     </nav>
@@ -163,19 +164,24 @@ const otherHref = switchLocaleHref(pathname, lang === 'zh' ? 'en' : 'zh');
   const menu = document.getElementById('mobile-menu');
 
   if (toggle && menu) {
+    const closeMenu = (returnFocus = false) => {
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.hidden = true;
+      document.body.style.overflow = '';
+      if (returnFocus) toggle.focus();
+    };
     toggle.addEventListener('click', () => {
       const open = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!open));
-      menu.hidden = open;
-      document.body.style.overflow = open ? '' : 'hidden';
+      if (open) return closeMenu();
+      toggle.setAttribute('aria-expanded', 'true');
+      menu.hidden = false;
+      document.body.style.overflow = 'hidden';
     });
-    menu.querySelectorAll('a').forEach((a) =>
-      a.addEventListener('click', () => {
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.hidden = true;
-        document.body.style.overflow = '';
-      }),
-    );
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => closeMenu()));
+    // Esc 關閉行動選單並把焦點還給切換鈕
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') closeMenu(true);
+    });
   }
 
   const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
