@@ -1,0 +1,184 @@
+---
+import { getLang, localizePath, switchLocaleHref, isActivePath } from '../i18n/utils';
+import { useUI, ROUTES, SERVICE_NAV } from '../i18n/ui';
+import { company } from '../i18n/company';
+
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const pathname = Astro.url.pathname;
+const lp = (p: string) => localizePath(p, lang);
+const active = (p: string) => isActivePath(pathname, p);
+const otherHref = switchLocaleHref(pathname, lang === 'zh' ? 'en' : 'zh');
+---
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={lp(ROUTES.home)} aria-label={`${company.brand} ${lang === 'zh' ? '首頁' : 'home'}`}>
+      <img src="/brand/twouring-wordmark.svg" alt={company.brand} width="148" height="32" />
+    </a>
+
+    <nav class="nav-desktop" aria-label={lang === 'zh' ? '主要導覽' : 'Primary'}>
+      <ul class="nav-list">
+        <li class="has-menu">
+          <a
+            href={lp(ROUTES.services)}
+            class:list={['nav-link', { 'is-active': active(ROUTES.services) }]}
+            aria-current={active(ROUTES.services) ? 'page' : undefined}
+          >
+            {t.nav.services}
+            <svg class="caret" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <div class="mega">
+            {SERVICE_NAV.map((s) => (
+              <a class="mega-item" href={lp(s.path)}>
+                <span class="mega-title">{t.serviceNav[s.key]}</span>
+                <span class="mega-desc">{t.serviceNavDesc[s.key]}</span>
+              </a>
+            ))}
+            <a class="mega-all" href={lp(ROUTES.services)}>{t.nav.servicesOverview} →</a>
+          </div>
+        </li>
+        <li><a href={lp(ROUTES.cases)} class:list={['nav-link', { 'is-active': active(ROUTES.cases) }]} aria-current={active(ROUTES.cases) ? 'page' : undefined}>{t.nav.cases}</a></li>
+        <li><a href={lp(ROUTES.about)} class:list={['nav-link', { 'is-active': active(ROUTES.about) }]} aria-current={active(ROUTES.about) ? 'page' : undefined}>{t.nav.about}</a></li>
+        <li><a href={lp(ROUTES.contact)} class:list={['nav-link', { 'is-active': active(ROUTES.contact) }]} aria-current={active(ROUTES.contact) ? 'page' : undefined}>{t.nav.contact}</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a class="lang-switch" href={otherHref} hreflang={lang === 'zh' ? 'en' : 'zh'} rel="alternate">{t.langSwitch}</a>
+      <a class="icon-link" href={company.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.94 5a2 2 0 11-4 0 2 2 0 014 0zM3.3 8.5h3.3V21H3.3V8.5zM9.3 8.5h3.16v1.7h.05c.44-.83 1.5-1.7 3.1-1.7 3.32 0 3.93 2.18 3.93 5.02V21h-3.3v-5.55c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.92V21H9.3V8.5z"/></svg>
+      </a>
+      <a class="btn btn--primary btn-cta-desktop" href={lp(ROUTES.contact)}>{t.cta.primaryShort}</a>
+      <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label={t.nav.menu}>
+        <span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="container" aria-label={lang === 'zh' ? '行動導覽' : 'Mobile'}>
+      <p class="m-group-label">{t.nav.services}</p>
+      <ul class="m-services">
+        {SERVICE_NAV.map((s) => (
+          <li><a href={lp(s.path)}><strong>{t.serviceNav[s.key]}</strong><span>{t.serviceNavDesc[s.key]}</span></a></li>
+        ))}
+        <li><a href={lp(ROUTES.services)} class="m-all">{t.nav.servicesOverview} →</a></li>
+      </ul>
+      <ul class="m-links">
+        <li><a href={lp(ROUTES.cases)}>{t.nav.cases}</a></li>
+        <li><a href={lp(ROUTES.about)}>{t.nav.about}</a></li>
+        <li><a href={lp(ROUTES.contact)}>{t.nav.contact}</a></li>
+        <li><a href={otherHref} hreflang={lang === 'zh' ? 'en' : 'zh'}>{t.langSwitch}</a></li>
+      </ul>
+      <a class="btn btn--primary btn--block" href={lp(ROUTES.contact)}>{t.cta.primary}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .site-header.scrolled { border-bottom-color: var(--c-line); box-shadow: var(--shadow-sm); }
+  .header-inner { display: flex; align-items: center; gap: 1rem; min-height: 68px; }
+  .brand { display: inline-flex; align-items: center; flex-shrink: 0; }
+  .brand img { height: 30px; width: auto; }
+
+  .nav-desktop { margin-left: auto; }
+  .nav-list { display: flex; align-items: center; gap: 0.4rem; }
+  .nav-link {
+    display: inline-flex; align-items: center; gap: 0.25em;
+    font-family: var(--font-head); font-weight: 700; font-size: 0.97rem;
+    color: var(--c-ink-strong); padding: 0.5em 0.85em; border-radius: var(--radius-pill);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .nav-link:hover { color: var(--c-accent-strong); background: var(--c-surface-warm); }
+  .nav-link.is-active { color: var(--c-accent-strong); }
+  .caret { transition: transform 0.2s ease; opacity: 0.7; }
+
+  .has-menu { position: relative; }
+  .mega {
+    position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(6px);
+    width: min(420px, 84vw); background: #fff; border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 0.6rem;
+    display: grid; gap: 0.15rem; opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  }
+  .has-menu:hover .mega, .has-menu:focus-within .mega {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0);
+  }
+  .has-menu:hover .caret, .has-menu:focus-within .caret { transform: rotate(180deg); }
+  .mega-item { display: grid; gap: 0.1rem; padding: 0.7em 0.9em; border-radius: var(--radius); color: var(--c-ink-strong); }
+  .mega-item:hover { background: var(--c-surface-warm); }
+  .mega-title { font-family: var(--font-head); font-weight: 700; }
+  .mega-desc { font-size: 0.85rem; color: var(--c-muted); }
+  .mega-all { padding: 0.6em 0.9em; font-weight: 700; font-family: var(--font-head); color: var(--c-accent-strong); border-top: 1px solid var(--c-line); margin-top: 0.2rem; }
+
+  .header-actions { display: flex; align-items: center; gap: 0.35rem; flex-shrink: 0; }
+  .lang-switch {
+    font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; color: var(--c-ink-strong);
+    padding: 0.45em 0.7em; border-radius: var(--radius-pill); border: 1.5px solid var(--c-line-strong);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .lang-switch:hover { color: var(--c-accent-strong); border-color: var(--c-accent); }
+  .icon-link { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: var(--c-ink-strong); transition: background 0.15s ease, color 0.15s ease; }
+  .icon-link:hover { background: var(--c-surface-warm); color: var(--c-accent-strong); }
+
+  .menu-toggle { display: none; width: 42px; height: 42px; border: 1.5px solid var(--c-line-strong); background: #fff; border-radius: var(--radius); cursor: pointer; place-items: center; }
+  .menu-bars { display: grid; gap: 4px; width: 18px; }
+  .menu-bars span { height: 2px; background: var(--c-ink-strong); border-radius: 2px; transition: transform 0.2s ease, opacity 0.2s ease; }
+  .menu-toggle[aria-expanded='true'] .menu-bars span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded='true'] .menu-bars span:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded='true'] .menu-bars span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  .mobile-menu { border-top: 1px solid var(--c-line); background: #fff; padding-block: 1.2rem 1.6rem; max-height: calc(100dvh - 68px); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+  .mobile-menu[hidden] { display: none; }
+  .m-group-label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-faint); font-weight: 700; margin-bottom: 0.4rem; }
+  .m-services { display: grid; gap: 0.2rem; padding-bottom: 0.8rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--c-line); }
+  .m-services a { display: grid; gap: 0.1rem; padding: 0.6em 0.7em; border-radius: var(--radius); color: var(--c-ink-strong); }
+  .m-services a:hover { background: var(--c-surface-warm); }
+  .m-services span { font-size: 0.85rem; color: var(--c-muted); }
+  .m-all { color: var(--c-accent-strong) !important; font-weight: 700; }
+  .m-links { display: grid; gap: 0.1rem; margin-bottom: 1rem; }
+  .m-links a { display: block; padding: 0.7em 0.7em; border-radius: var(--radius); font-family: var(--font-head); font-weight: 700; color: var(--c-ink-strong); }
+  .m-links a:hover { background: var(--c-surface-warm); }
+
+  @media (max-width: 880px) {
+    .nav-desktop, .btn-cta-desktop, .icon-link { display: none; }
+    .nav-desktop { margin-left: 0; }
+    .header-actions { margin-left: auto; }
+    .menu-toggle { display: grid; }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      menu.hidden = open;
+      document.body.style.overflow = open ? '' : 'hidden';
+    });
+    menu.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.hidden = true;
+        document.body.style.overflow = '';
+      }),
+    );
+  }
+
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

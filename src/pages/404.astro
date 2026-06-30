@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ROUTES } from '../i18n/ui';
+---
+<BaseLayout
+  title="404"
+  description="頁面不存在 / Page not found"
+  path={ROUTES.home}
+  noindex={true}
+>
+  <section class="nf">
+    <div class="container">
+      <p class="nf-code text-grad">404</p>
+      <h1>找不到這個頁面</h1>
+      <p class="lead">你要找的頁面可能已移動或不存在。<br /><span class="en">The page you’re looking for has moved or doesn’t exist.</span></p>
+      <div class="cluster nf-links">
+        <a class="btn btn--primary" href="/">回到首頁 · Home</a>
+        <a class="btn btn--ghost" href={ROUTES.services}>服務 · Services</a>
+        <a class="btn btn--ghost" href={ROUTES.contact}>聯絡 · Contact</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf { padding-block: clamp(4rem, 12vw, 8rem); text-align: center; }
+  .nf-code { font-family: var(--font-head); font-weight: 800; font-size: clamp(4rem, 14vw, 8rem); line-height: 1; }
+  .nf h1 { margin-top: 0.5rem; }
+  .nf .lead { margin: 1rem auto 0; max-width: 46ch; }
+  .nf .en { color: var(--c-faint); font-size: 0.95rem; }
+  .nf-links { justify-content: center; margin-top: 2rem; }
+</style>

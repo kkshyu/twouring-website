@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../PageHero.astro';
+import CTABand from '../CTABand.astro';
+import Icon from '../Icon.astro';
+import { getLang } from '../../i18n/utils';
+import { useUI, ROUTES } from '../../i18n/ui';
+
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+
+const c = {
+  zh: {
+    eyebrow: '案例與成果',
+    title: '把政府與城市專案，整理成可複製的方法',
+    lead: '遊遊以政府數位遊牧專案、TDNA 生態系與亞洲城市連結為基礎，協助城市、企業與場域把議題變成可執行、可驗收的成果。',
+    disclosure: '案例依 TDNA 與遊遊角色切分原則揭露角色與授權；部分專案的金額、KPI 與細節，將依公司確認後再行公開。情境案例為匿名類型呈現，不對應特定客戶。',
+    govTitle: '政府與城市專案',
+    scenarioTitle: '情境案例（匿名）',
+    scenarioLead: '在客戶尚未授權具名前，以匿名類型呈現合作型態與可複製方法。',
+    labels: { problem: '問題', role: '遊遊角色', did: '做了什麼', outcome: '成果' },
+    metaDescription: '遊遊案例：花蓮縣政府、台東縣政府與國家發展委員會等數位遊牧專案，以及企業 AI、場域 Nomad Ready 與國際交流的匿名情境案例。',
+    govCases: [
+      {
+        tag: '城市 · 政府',
+        client: '花蓮縣政府 · 數位遊牧專案',
+        problem: '希望把數位遊牧從一次性活動，延伸為可吸引國際人才與帶動在地消費的城市行動。',
+        role: '顧問、專案整合與執行管理。',
+        did: ['場域與資源盤點、商家串聯', '國際遊牧社群接待與活動設計', '成果整理與可公開素材產出'],
+        outcome: '建立可延續的數位遊牧接待與社群經驗（具體 KPI 依公司確認後公開）。',
+      },
+      {
+        tag: '城市 · 政府',
+        client: '台東縣政府 · 數位遊牧專案',
+        problem: '結合在地場域與國際遊牧社群，設計可延續的接待、交流與在地連結。',
+        role: '顧問、活動與場域整合。',
+        did: ['在地場域與社群盤點', '國際遊牧者接待與交流活動', '地方商家與資源串聯'],
+        outcome: '將一次性活動轉成具延續性的接待設計與在地連結（細節依公司確認後公開）。',
+      },
+      {
+        tag: '政策 · 生態系',
+        client: '國家發展委員會 × 數位遊牧生態系',
+        problem: '把數位遊牧推動與國際人才議題，連結成政策、社群與產業可協作的生態系。',
+        role: '生態系與政策協作（KK 任國發會數位遊牧辦公室執行長）。',
+        did: ['數位遊牧政策推動參與', 'Nomad Taiwan / TDNA 生態系連結', '城市、場域與社群串聯'],
+        outcome: '強化台灣數位遊牧生態系的政策與社群連結（角色與授權清楚揭露）。',
+      },
+    ],
+    scenarioCases: [
+      { tag: '企業 · AI', title: '服務業 AI 營運健檢', desc: '為連鎖服務業盤點流程與工具，產出 AI 導入機會清單與優先順序，先做最值得自動化的三個工作流。' },
+      { tag: '場域 · Nomad Ready', title: '商圈多店國際化共創', desc: '協助商圈 10–20 家商家進行 Nomad Ready 改造，建立英文資訊、地圖、活動與國際社群曝光。' },
+      { tag: '國際 · 交流', title: '亞洲城市數位遊牧交流', desc: '為海外代表團設計一日城市參訪與單位對接，把交流變成可延續的跨國合作。' },
+    ],
+  },
+  en: {
+    eyebrow: 'Work & results',
+    title: 'Turning government and city projects into repeatable methods',
+    lead: 'Built on government digital-nomad projects, the TDNA ecosystem and Asia city links, Twouring helps cities, companies and venues turn issues into executable, auditable results.',
+    disclosure: 'Roles and authorisation are disclosed per the TDNA–Twouring role split; selected figures, KPIs and details are published after company confirmation. Scenario cases are shown anonymously and do not map to specific clients.',
+    govTitle: 'Government & city projects',
+    scenarioTitle: 'Scenario cases (anonymised)',
+    scenarioLead: 'Until clients authorise named cases, we present the engagement type and repeatable method anonymously.',
+    labels: { problem: 'Problem', role: 'Twouring’s role', did: 'What we did', outcome: 'Result' },
+    metaDescription: 'Twouring work: digital-nomad projects with Hualien County, Taitung County and the National Development Council, plus anonymised scenario cases in enterprise AI, Nomad Ready venues and international exchange.',
+    govCases: [
+      {
+        tag: 'City · Gov',
+        client: 'Hualien County · digital-nomad project',
+        problem: 'Extend digital nomadism from a one-off event into a city action that attracts talent and drives local spending.',
+        role: 'Advisory, project integration and delivery management.',
+        did: ['Venue and resource mapping, business linkage', 'Hosting and programme design for the global nomad community', 'Results write-up and publishable materials'],
+        outcome: 'A lasting digital-nomad hosting and community experience (specific KPIs published after confirmation).',
+      },
+      {
+        tag: 'City · Gov',
+        client: 'Taitung County · digital-nomad project',
+        problem: 'Combine local venues with the global nomad community into lasting hosting, exchange and local connection.',
+        role: 'Advisory, programme and venue integration.',
+        did: ['Local venue and community mapping', 'Hosting and exchange programmes for nomads', 'Linkage of local businesses and resources'],
+        outcome: 'Turned a one-off event into lasting hosting design and local connection (details after confirmation).',
+      },
+      {
+        tag: 'Policy · Ecosystem',
+        client: 'National Development Council × nomad ecosystem',
+        problem: 'Connect digital-nomad and talent agendas into an ecosystem that policy, community and industry can work on together.',
+        role: 'Ecosystem and policy collaboration (KK serves as Executive Director of the NDC Digital Nomad Office).',
+        did: ['Contributing to digital-nomad policy', 'Nomad Taiwan / TDNA ecosystem links', 'Connecting cities, venues and community'],
+        outcome: 'Stronger policy and community links across Taiwan’s nomad ecosystem (roles and authorisation disclosed).',
+      },
+    ],
+    scenarioCases: [
+      { tag: 'Enterprise · AI', title: 'Service-sector AI health-check', desc: 'Mapping process and tooling for a service chain into an AI opportunity list and priorities — automating the three workflows worth it first.' },
+      { tag: 'Venue · Nomad Ready', title: 'District multi-store internationalisation', desc: 'Helping 10–20 shops in a district go Nomad Ready with English info, a map, events and global community exposure.' },
+      { tag: 'International · Exchange', title: 'Asia city nomad exchange', desc: 'Designing a one-day city visit and matchmaking for an overseas delegation — turning exchange into lasting collaboration.' },
+    ],
+  },
+}[lang];
+---
+<BaseLayout title={lang === 'zh' ? '案例' : 'Work'} description={c.metaDescription} path={ROUTES.cases}>
+  <PageHero eyebrow={c.eyebrow} title={c.title} lead={c.lead} crumbs={[{ label: t.nav.cases }]} />
+
+  <div class="container disclosure-wrap">
+    <p class="disclosure"><Icon name="shield" size={18} /> {c.disclosure}</p>
+  </div>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.govTitle}</p></div>
+      <div class="cases-list">
+        {c.govCases.map((cs) => (
+          <article class="card case-detail">
+            <header class="case-head">
+              <span class="tag">{cs.tag}</span>
+              <h2>{cs.client}</h2>
+            </header>
+            <div class="case-grid">
+              <div><h3>{c.labels.problem}</h3><p>{cs.problem}</p></div>
+              <div><h3>{c.labels.role}</h3><p>{cs.role}</p></div>
+              <div><h3>{c.labels.did}</h3><ul>{cs.did.map((x) => (<li><Icon name="check" size={15} /> {x}</li>))}</ul></div>
+              <div><h3>{c.labels.outcome}</h3><p>{cs.outcome}</p></div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.scenarioTitle}</p><p class="lead">{c.scenarioLead}</p></div>
+      <div class="grid grid--3">
+        {c.scenarioCases.map((cs) => (
+          <article class="card scenario-card">
+            <span class="tag">{cs.tag}</span>
+            <h3>{cs.title}</h3>
+            <p>{cs.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<style>
+  .disclosure-wrap { margin-top: -0.5rem; }
+  .disclosure { display: flex; gap: 0.6rem; align-items: flex-start; background: var(--c-surface-warm); border: 1px solid #ffe0d6; border-radius: var(--radius); padding: 1rem 1.2rem; color: var(--c-muted); font-size: 0.9rem; }
+  .disclosure :global(svg) { color: var(--c-accent-strong); flex-shrink: 0; margin-top: 2px; }
+
+  .cases-list { display: grid; gap: 1.4rem; }
+  .case-detail { padding: 0; overflow: hidden; }
+  .case-head { padding: 1.5rem 1.8rem; border-bottom: 1px solid var(--c-line); background: var(--c-surface); display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+  .case-head h2 { font-size: var(--fs-600); }
+  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 2rem; padding: 1.8rem; }
+  .case-grid h3 { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-faint); font-family: var(--font-head); margin-bottom: 0.5rem; }
+  .case-grid p { color: var(--c-ink); }
+  .case-grid ul { display: grid; gap: 0.4rem; }
+  .case-grid li { display: flex; gap: 0.5rem; align-items: flex-start; }
+  .case-grid li :global(svg) { color: var(--c-accent-strong); flex-shrink: 0; margin-top: 4px; }
+
+  .scenario-card { display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-start; }
+  .scenario-card h3 { font-size: var(--fs-500); }
+  .scenario-card p { color: var(--c-muted); }
+
+  @media (max-width: 680px) { .case-grid { grid-template-columns: 1fr; } }
+</style>

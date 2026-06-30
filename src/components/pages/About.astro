@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../PageHero.astro';
+import CTABand from '../CTABand.astro';
+import Icon from '../Icon.astro';
+import { getLang, localizePath } from '../../i18n/utils';
+import { useUI, ROUTES } from '../../i18n/ui';
+import { company } from '../../i18n/company';
+
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+
+const c = {
+  zh: {
+    eyebrow: '關於遊遊',
+    title: '與客戶同行，把想法走到可落地的下一站',
+    lead: 'Twouring 遊遊用 AI、數位工具、軟體與顧問方法，協助企業、政府與城市解決營運、轉型與人才問題。我們把政府專案實績、生態系連結與技術產品能力，整理成可購買、可驗收的顧問服務。',
+    storyTitle: '為什麼叫 Twouring 遊遊',
+    story: [
+      'Twouring 讀音接近 touring，來自 touring / two touring / tw-ouring。「Two」代表你我一起達成目標；「tw-ouring」連結台灣的努力與在地感。',
+      '遊遊原為「遊遊有限公司」，因後續有其他股東加入而改制為「遊遊股份有限公司」，是同一品牌脈絡的延續。對外正式名稱一律使用「遊遊股份有限公司」，品牌顯示為「Twouring 遊遊」。',
+    ],
+    mvTitle: '我們相信的事',
+    mv: [
+      { icon: 'target', t: '使命', d: '讓城市、企業與場域，把國際人才、遠距工作與 AI，變成可執行、可持續的成長。' },
+      { icon: 'globe', t: '願景', d: '成為亞洲數位遊牧、遠距工作與 AI 營運轉型的首選顧問夥伴。' },
+      { icon: 'compass', t: '價值', d: '診斷先於方案、成果可驗收、角色與授權清楚切分，不用 AI 當空泛口號。' },
+    ],
+    kkTitle: '主導顧問：徐愷（KK）',
+    kkLead: 'KK 不是單一領域顧問，而是橫跨技術、產品、遠端團隊、數位遊牧、社群與政府生態系的整合型角色。',
+    kkRoles: [
+      '台灣數位遊牧者協會（TDNA）理事長',
+      '國發會數位遊牧辦公室執行長',
+      '適才科技負責人、言文字負責人',
+      '前 MoBagel 工程副總（VP of Engineering）',
+      'AWS Certified Solutions Architect – Associate',
+      '技術架構、產品與遠端團隊顧問；多年技術教學與工作坊',
+    ],
+    kkNote: 'KK 負責高階判斷、關係建立、關鍵提案與品質把關；日常執行由專案 Pod 承接，讓顧問服務不依賴單一個人。',
+    groupTitle: '集團角色與治理邊界',
+    groupLead: '遊遊、適才、言文字與 TDNA 各司其職。商業合約由遊遊簽署，TDNA 角色另行列明，會員與社群資料不作商業開發。',
+    group: [
+      { name: '遊遊', role: '顧問 · 專案整合 · PMO', desc: '對外顧問、政府案、城市策略、AI／遠距診斷與專案管理。' },
+      { name: '適才科技', role: '系統 · 產品 · 工程', desc: '軟體開發、AI 工具建置、系統導入與工程管理。' },
+      { name: '言文字', role: '空間 · 活動 · 社群', desc: '實體活動、工作坊、場域實驗與地方社群接待。' },
+      { name: 'TDNA', role: '公益 · 倡議 · 平台', desc: '數位遊牧公共倡議、政策溝通與產業連結（非遊遊商業資產）。' },
+    ],
+    regTitle: '公司登記資訊',
+    metaDescription: '關於遊遊股份有限公司（Twouring 遊遊）：品牌故事、使命願景、主導顧問徐愷（KK）、集團角色與治理邊界，以及公司登記資訊。',
+  },
+  en: {
+    eyebrow: 'About Twouring',
+    title: 'Walking with clients — taking ideas to the next, deliverable stop',
+    lead: 'Twouring uses AI, digital tools, software and advisory to help companies, governments and cities solve operations, transformation and talent problems. We turn government track record, ecosystem links and tech-product capability into advisory you can buy and audit.',
+    storyTitle: 'Why “Twouring 遊遊”',
+    story: [
+      'Twouring sounds like “touring”, from touring / two touring / tw-ouring. “Two” means reaching goals together; “tw-ouring” links to Taiwan’s effort and local sense of place.',
+      'We began as “遊遊有限公司” (Twouring Ltd.) and became “遊遊股份有限公司” (Twouring Co., Ltd.) after new shareholders joined — the same brand, continued. Our official name is always Twouring Co., Ltd., shown as the brand “Twouring 遊遊”.',
+    ],
+    mvTitle: 'What we believe',
+    mv: [
+      { icon: 'target', t: 'Mission', d: 'Help cities, companies and venues turn international talent, remote work and AI into executable, lasting growth.' },
+      { icon: 'globe', t: 'Vision', d: 'Be Asia’s go-to advisory partner for digital nomadism, remote work and AI operations transformation.' },
+      { icon: 'compass', t: 'Values', d: 'Diagnosis before pitch, auditable results, clearly split roles and authorisation — and never AI as an empty slogan.' },
+    ],
+    kkTitle: 'Lead advisor: Kai Hsu (KK)',
+    kkLead: 'KK is not a single-domain consultant but an integrator spanning technology, product, remote teams, digital nomadism, community and the government ecosystem.',
+    kkRoles: [
+      'Chair, Taiwan Digital Nomad Association (TDNA)',
+      'Executive Director, NDC Digital Nomad Office',
+      'Founder of Adata; founder of Yan-Wen-Zi',
+      'Former VP of Engineering, MoBagel',
+      'AWS Certified Solutions Architect – Associate',
+      'Architecture, product & remote-team advisor; years of teaching and workshops',
+    ],
+    kkNote: 'KK leads high-level judgment, relationships, key proposals and quality control; day-to-day delivery is handled by a project pod, so advisory never depends on one person.',
+    groupTitle: 'Group roles & governance boundaries',
+    groupLead: 'Twouring, Adata, Yan-Wen-Zi and TDNA each have their lane. Commercial contracts are signed by Twouring; TDNA’s role is listed separately, and member or community data is never used for business development.',
+    group: [
+      { name: 'Twouring', role: 'Advisory · integration · PMO', desc: 'External advisory, government projects, city strategy, AI/remote diagnostics and PM.' },
+      { name: 'Adata', role: 'Systems · product · engineering', desc: 'Software development, AI tooling, system rollout and engineering management.' },
+      { name: 'Yan-Wen-Zi', role: 'Space · events · community', desc: 'Physical events, workshops, venue experiments and local community hosting.' },
+      { name: 'TDNA', role: 'Non-profit · advocacy · platform', desc: 'Digital-nomad advocacy, policy and industry links (not a Twouring commercial asset).' },
+    ],
+    regTitle: 'Company registration',
+    metaDescription: 'About Twouring Co., Ltd. (Twouring 遊遊): brand story, mission and vision, lead advisor Kai Hsu (KK), group roles and governance boundaries, and company registration.',
+  },
+}[lang];
+
+const reg = lang === 'zh'
+  ? [
+      ['法定名稱', company.legalName.zh + '（Twouring Co., Ltd.）'],
+      ['前身', company.formerName.zh],
+      ['統一編號', company.taxId],
+      ['設立日期', company.founded],
+      ['資本總額 / 實收資本額', company.capital],
+      ['代表人', company.representative.zh],
+      ['登記地址', company.address.zh],
+      ['財稅營業項目', '702099 其他管理顧問'],
+    ]
+  : [
+      ['Legal name', company.legalName.en + ' (' + company.legalName.zh + ')'],
+      ['Former name', company.formerName.zh + ' (Twouring Ltd.)'],
+      ['Tax ID', company.taxId],
+      ['Founded', company.founded],
+      ['Capital / paid-in', company.capital],
+      ['Representative', company.representative.en],
+      ['Registered address', company.address.en],
+      ['Business category', '702099 Management consulting'],
+    ];
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: '徐愷',
+  alternateName: 'Kai Hsu (KK)',
+  jobTitle: lang === 'zh' ? '遊遊股份有限公司負責人 / 主導顧問' : 'Founder & lead advisor, Twouring Co., Ltd.',
+  worksFor: { '@id': company.siteUrl + '/#organization' },
+  url: company.siteUrl + lp(ROUTES.about),
+};
+---
+<BaseLayout title={lang === 'zh' ? '關於遊遊' : 'About'} description={c.metaDescription} path={ROUTES.about} jsonLd={[personLd]}>
+  <PageHero eyebrow={c.eyebrow} title={c.title} lead={c.lead} crumbs={[{ label: t.nav.about }]} />
+
+  <!-- 品牌故事 -->
+  <section class="section">
+    <div class="container container--narrow">
+      <p class="eyebrow">{c.storyTitle}</p>
+      <div class="flow story">
+        {c.story.map((p) => (<p>{p}</p>))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 使命願景價值 -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-head center"><h2>{c.mvTitle}</h2></div>
+      <div class="grid grid--3">
+        {c.mv.map((m) => (
+          <div class="card mv-card">
+            <span class="mv-icon"><Icon name={m.icon} size={24} /></span>
+            <h3>{m.t}</h3>
+            <p>{m.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- KK -->
+  <section class="section">
+    <div class="container kk-wrap">
+      <div class="kk-aside">
+        <div class="kk-avatar" aria-hidden="true">KK</div>
+        <p class="kk-name">{company.representative[lang]}</p>
+        <a class="kk-linkedin" href={company.linkedin} target="_blank" rel="noopener">LinkedIn →</a>
+      </div>
+      <div class="kk-body">
+        <p class="eyebrow">{c.kkTitle}</p>
+        <p class="lead">{c.kkLead}</p>
+        <ul class="kk-roles">
+          {c.kkRoles.map((r) => (<li><Icon name="check" size={18} /> {r}</li>))}
+        </ul>
+        <p class="kk-note">{c.kkNote}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 集團角色 -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">{c.groupTitle}</p><h2>{c.groupLead}</h2></div>
+      <div class="grid grid--4">
+        {c.group.map((g) => (
+          <div class="card group-card">
+            <h3>{g.name}</h3>
+            <p class="group-role">{g.role}</p>
+            <p class="group-desc">{g.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 登記資訊 -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="section-head"><p class="eyebrow"><Icon name="building" size={16} /> {c.regTitle}</p></div>
+      <dl class="reg-table">
+        {reg.map(([k, v]) => (<div class="reg-row"><dt>{k}</dt><dd>{v}</dd></div>))}
+      </dl>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<style>
+  .story p { font-size: var(--fs-500); color: var(--c-ink); }
+  .mv-card { text-align: center; }
+  .mv-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: var(--grad-soft); color: var(--c-accent-strong); margin-bottom: 1rem; }
+
+  .kk-wrap { display: grid; grid-template-columns: 260px 1fr; gap: 2.5rem; align-items: start; }
+  .kk-aside { position: sticky; top: 90px; text-align: center; background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: 1.8rem; }
+  .kk-avatar { width: 110px; height: 110px; margin: 0 auto 1rem; border-radius: 50%; display: grid; place-items: center; background: var(--grad-brand); color: #fff; font-family: var(--font-head); font-weight: 800; font-size: 2.4rem; box-shadow: var(--shadow-accent); }
+  .kk-name { font-family: var(--font-head); font-weight: 800; font-size: var(--fs-500); }
+  .kk-linkedin { display: inline-block; margin-top: 0.6rem; font-weight: 700; }
+  .kk-roles { margin: 1.4rem 0; display: grid; gap: 0.7rem; }
+  .kk-roles li { display: flex; gap: 0.6rem; align-items: flex-start; }
+  .kk-roles :global(svg) { color: var(--c-accent-strong); flex-shrink: 0; margin-top: 3px; }
+  .kk-note { color: var(--c-muted); border-left: 3px solid var(--c-accent-2); padding-left: 1rem; }
+
+  .group-card h3 { font-size: var(--fs-500); }
+  .group-role { color: var(--c-accent-strong); font-size: 0.85rem; font-weight: 600; font-family: var(--font-head); margin: 0.3rem 0 0.6rem; }
+  .group-desc { color: var(--c-muted); font-size: 0.92rem; }
+
+  .reg-table { border: 1px solid var(--c-line); border-radius: var(--radius-lg); overflow: hidden; }
+  .reg-row { display: grid; grid-template-columns: 230px 1fr; gap: 1rem; padding: 0.95rem 1.4rem; border-bottom: 1px solid var(--c-line); }
+  .reg-row:last-child { border-bottom: none; }
+  .reg-row:nth-child(odd) { background: var(--c-surface); }
+  .reg-row dt { font-weight: 700; font-family: var(--font-head); color: var(--c-ink-strong); }
+  .reg-row dd { color: var(--c-ink); }
+
+  @media (max-width: 760px) {
+    .kk-wrap { grid-template-columns: 1fr; }
+    .kk-aside { position: static; }
+    .reg-row { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
+</style>

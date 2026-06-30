@@ -1,0 +1,119 @@
+---
+import '@fontsource/nunito/400.css';
+import '@fontsource/nunito/600.css';
+import '@fontsource/nunito/700.css';
+import '@fontsource/nunito/800.css';
+import '@fontsource/source-sans-3/400.css';
+import '@fontsource/source-sans-3/600.css';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLang, localizePath } from '../i18n/utils';
+import { useUI } from '../i18n/ui';
+import { company } from '../i18n/company';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string; // 邏輯路徑（不含語言前綴），例：/services/city
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description, path, ogImage = '/og-default.jpg', jsonLd = [], noindex = false } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const htmlLang = lang === 'zh' ? 'zh-Hant-TW' : 'en';
+
+const base = company.siteUrl;
+const canonical = base + localizePath(path, lang);
+const zhHref = base + localizePath(path, 'zh');
+const enHref = base + localizePath(path, 'en');
+const ogImageAbs = ogImage.startsWith('http') ? ogImage : base + ogImage;
+const fullTitle = path === '/' ? title : `${title}｜${company.brand}`;
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': base + '/#organization',
+  name: company.legalName.zh,
+  alternateName: [company.brand, company.legalName.en],
+  url: base,
+  logo: base + '/brand/twouring-logo.svg',
+  image: ogImageAbs,
+  email: company.email,
+  slogan: company.slogan,
+  taxID: company.taxId,
+  foundingDate: company.founded,
+  founder: { '@type': 'Person', name: '徐愷' },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '開封街一段37號11樓',
+    addressLocality: '中正區',
+    addressRegion: '臺北市',
+    postalCode: '100',
+    addressCountry: 'TW',
+  },
+  areaServed: ['TW', 'Asia'],
+  sameAs: [company.linkedin],
+  knowsAbout: ['AI 導入', '數位轉型', '軟體開發', '遠距工作', '城市策略顧問', '地方創生', '數位遊牧', '技術顧問'],
+};
+const allLd = [orgLd, ...jsonLd];
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="zh-Hant-TW" href={zhHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={zhHref} />
+
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={company.brand} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_TW' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'zh' ? 'en_US' : 'zh_TW'} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageAbs} />
+    <meta property="og:image:alt" content={company.brand} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbs} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {allLd.map((ld) => (<script type="application/ld+json" set:html={JSON.stringify(ld)} />))}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skipToContent}</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body { display: flex; flex-direction: column; min-height: 100vh; }
+  main { flex: 1 0 auto; }
+</style>

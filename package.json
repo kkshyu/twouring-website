@@ -1,0 +1,20 @@
+{
+  "name": "twouring-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "遊遊股份有限公司 Twouring 官方網站",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.0",
+    "@fontsource/nunito": "^5.2.5",
+    "@fontsource/source-sans-3": "^5.2.5",
+    "astro": "^5.13.0"
+  }
+}

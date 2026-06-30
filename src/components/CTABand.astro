@@ -1,0 +1,47 @@
+---
+import { getLang, localizePath } from '../i18n/utils';
+import { useUI, ROUTES } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  text?: string;
+}
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+
+const defaults = {
+  zh: {
+    title: '先用一場 30 分鐘診斷，找出最值得投入的下一步',
+    text: '我們不先賣方案，先判斷你的問題是否清楚、是否有預算與決策者，並給出可執行的初步方向。',
+  },
+  en: {
+    title: 'Start with a 30-minute diagnostic to find the next step worth taking',
+    text: 'We do not pitch first. We assess whether the problem is clear, whether there is budget and a decision-maker, and give you an actionable initial direction.',
+  },
+};
+const { title = defaults[lang].title, text = defaults[lang].text } = Astro.props;
+---
+<section class="cta-band">
+  <div class="container cta-inner">
+    <div class="cta-copy">
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn btn--light btn--lg" href={lp(ROUTES.contact)}>{t.cta.primary}</a>
+      <a class="cta-mail" href={`mailto:us@twouring.com`}>us@twouring.com</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band { background: var(--grad-brand-strong); color: #fff; }
+  .cta-inner { padding-block: clamp(2.6rem, 6vw, 4rem); display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; align-items: center; }
+  .cta-copy h2 { color: #fff; font-size: var(--fs-700); max-width: 22ch; }
+  .cta-copy p { color: rgba(255,255,255,0.92); margin-top: 0.8rem; max-width: 52ch; }
+  .cta-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 0.9rem; }
+  .cta-mail { color: #fff; font-weight: 700; font-family: var(--font-head); opacity: 0.95; text-decoration: underline; text-underline-offset: 3px; }
+  .cta-mail:hover { color: #fff; opacity: 1; }
+  @media (max-width: 760px) { .cta-inner { grid-template-columns: 1fr; } .cta-actions { align-items: stretch; } }
+</style>

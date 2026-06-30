@@ -1,0 +1,47 @@
+---
+import { getLang, localizePath } from '../i18n/utils';
+import { useUI, ROUTES } from '../i18n/ui';
+
+interface Crumb { label: string; path?: string; }
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  crumbs?: Crumb[];
+  variant?: 'default' | 'warm';
+}
+const { eyebrow, title, lead, crumbs = [], variant = 'warm' } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+const home = lang === 'zh' ? '首頁' : 'Home';
+---
+<section class:list={['page-hero', `page-hero--${variant}`]}>
+  <div class="container">
+    <nav class="crumbs" aria-label={lang === 'zh' ? '麵包屑' : 'Breadcrumb'}>
+      <a href={lp(ROUTES.home)}>{home}</a>
+      {crumbs.map((c) => (
+        <>
+          <span class="sep" aria-hidden="true">/</span>
+          {c.path ? <a href={lp(c.path)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+        </>
+      ))}
+    </nav>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead hero-lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero { padding-block: clamp(2.4rem, 6vw, 4rem) clamp(2rem, 5vw, 3rem); position: relative; overflow: hidden; }
+  .page-hero--warm { background: var(--grad-soft); border-bottom: 1px solid var(--c-line); }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; font-size: 0.88rem; color: var(--c-muted); margin-bottom: 1.2rem; }
+  .crumbs a { color: var(--c-muted); }
+  .crumbs a:hover { color: var(--c-accent-strong); }
+  .crumbs .sep { color: var(--c-faint); }
+  .page-hero h1 { max-width: 18ch; }
+  .hero-lead { margin-top: 1rem; max-width: 60ch; }
+  .eyebrow { margin-bottom: 0.8rem; }
+</style>

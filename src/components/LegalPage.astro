@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from './PageHero.astro';
+import { getLang, localizePath } from '../i18n/utils';
+import { useUI, ROUTES } from '../i18n/ui';
+import { legal, type LegalSlug } from '../data/legal';
+
+interface Props { slug: LegalSlug; }
+const { slug } = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+const d = legal[slug][lang];
+const path = ROUTES[slug];
+---
+<BaseLayout title={d.title} description={d.metaDescription} path={path}>
+  <PageHero title={d.title} crumbs={[{ label: d.title }]} variant="default">
+    <p class="updated">{d.updated}</p>
+  </PageHero>
+
+  <section class="section section--tight">
+    <div class="container container--narrow">
+      <div class="prose">
+        <p class="intro">{d.intro}</p>
+        {d.blocks.map((b) => (
+          <div class="legal-block">
+            {b.heading && <h2>{b.heading}</h2>}
+            {b.paras?.map((p) => (<p>{p}</p>))}
+            {b.list && <ul>{b.list.map((li) => (<li>{li}</li>))}</ul>}
+          </div>
+        ))}
+      </div>
+      <div class="legal-foot">
+        <a class="btn btn--ghost" href={lp(ROUTES.contact)}>{t.cta.contact}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .updated { margin-top: 0.8rem; color: var(--c-faint); font-size: 0.9rem; }
+  .intro { font-size: var(--fs-500); color: var(--c-muted); }
+  .legal-block { margin-top: 1.6rem; }
+  .legal-foot { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--c-line); }
+</style>

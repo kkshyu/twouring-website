@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../PageHero.astro';
+import CTABand from '../CTABand.astro';
+import Icon from '../Icon.astro';
+import { getLang, localizePath } from '../../i18n/utils';
+import { useUI, ROUTES, SERVICE_NAV } from '../../i18n/ui';
+import { services } from '../../data/services';
+
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+
+const c = {
+  zh: {
+    eyebrow: '服務總覽',
+    title: '從城市策略到企業 AI，四個清楚的合作入口',
+    lead: '遊遊把能力整理成可購買、可詢問的服務。所有服務都從一場 30 分鐘診斷開始，依診斷結果延伸到顧問、PMO 與導入。',
+    metaDescription: '遊遊四大顧問服務：城市與政府數位遊牧策略、企業 AI 與遠距工作導入、Nomad Ready 場域顧問、國際交流與參訪設計。皆以付費診斷為入口。',
+    ladderTitle: '同一套銷售階梯',
+    ladderLead: '不論哪一條服務線，都依同一套產品階梯逐步合作，讓投入與風險可控。',
+    ladder: [
+      { t: '免費內容 / 講座', d: '文章、公開講座與說明會，建立信任，不提供客製策略。' },
+      { t: '30 分鐘資格判斷', d: '判斷問題是否清楚、是否有預算與決策者。' },
+      { t: '付費診斷', d: 'NTD 30,000–200,000，依客戶類型與複雜度，是最重要的銷售入口。' },
+      { t: '3 個月顧問 / PMO', d: 'NTD 80,000–250,000／月，把診斷結果轉成執行。' },
+      { t: '導入專案 / 年度合作', d: 'NTD 300,000–3,000,000＋，依規模與是否含技術、活動、國際對接。' },
+    ],
+    grantTitle: '補助與標案策略顧問',
+    grantDesc: '遊遊也提供補助／標案的可行性診斷（NTD 50,000）、計畫書策略（NTD 150,000 起）與 PMO（NTD 80,000／月）。定位是策略、計畫設計與執行管理，而非低價代寫；成功分潤 5–12% 必與基本費搭配，不做無基本費的純抽成案。',
+    seeService: '查看服務',
+  },
+  en: {
+    eyebrow: 'All services',
+    title: 'From city strategy to enterprise AI — four clear entry points',
+    lead: 'Twouring packages its capabilities into services you can buy and ask about. Every service starts with a 30-minute diagnostic, then extends into advisory, PMO and rollout.',
+    metaDescription: 'Twouring’s four advisory services: digital-nomad city strategy, enterprise AI & remote-work adoption, Nomad Ready venue advisory, and international exchange design — each starting with a paid diagnostic.',
+    ladderTitle: 'One sales ladder',
+    ladderLead: 'Every service line follows the same product ladder, keeping investment and risk under control.',
+    ladder: [
+      { t: 'Free content / talks', d: 'Articles, public talks and briefings that build trust — no custom strategy.' },
+      { t: '30-min qualification', d: 'Confirm the problem is clear and there is budget and a decision-maker.' },
+      { t: 'Paid diagnostic', d: 'NTD 30,000–200,000 by client type and complexity — the key sales entry.' },
+      { t: '3-month advisory / PMO', d: 'NTD 80,000–250,000/mo, turning the diagnosis into delivery.' },
+      { t: 'Rollout / annual', d: 'NTD 300,000–3,000,000+, by scale and whether tech, events or exchange are included.' },
+    ],
+    grantTitle: 'Grants & public-tender strategy',
+    grantDesc: 'Twouring also offers grant/tender feasibility diagnostics (NTD 50,000), proposal strategy (from NTD 150,000) and PMO (NTD 80,000/mo). We position on strategy, plan design and delivery management — not low-cost ghost-writing; a 5–12% success fee always comes with a base fee, never pure commission.',
+    seeService: 'View service',
+  },
+}[lang];
+---
+<BaseLayout title={lang === 'zh' ? '服務' : 'Services'} description={c.metaDescription} path={ROUTES.services}>
+  <PageHero eyebrow={c.eyebrow} title={c.title} lead={c.lead} crumbs={[{ label: t.nav.services }]} />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2 svc-grid">
+        {SERVICE_NAV.map((s) => {
+          const d = services[s.key][lang];
+          return (
+            <article class="card svc-card">
+              <span class="svc-icon"><Icon name={services[s.key].icon} size={26} /></span>
+              <p class="svc-eyebrow">{d.eyebrow}</p>
+              <h2>{d.title}</h2>
+              <p class="svc-lead">{d.lead}</p>
+              <ul class="svc-highlights">
+                {d.highlights.map((h) => (<li><Icon name="check" size={16} /> {h}</li>))}
+              </ul>
+              <a class="btn btn--ghost svc-btn" href={lp(services[s.key].path)}>{c.seeService} <Icon name="arrow" size={18} /></a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-head center"><p class="eyebrow">{c.ladderTitle}</p><h2>{c.ladderLead}</h2></div>
+      <ol class="ladder">
+        {c.ladder.map((l, i) => (
+          <li class="ladder-item">
+            <span class="ladder-num">{i + 1}</span>
+            <div><h3>{l.t}</h3><p>{l.d}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grant-card">
+        <span class="grant-icon"><Icon name="doc" size={28} /></span>
+        <div>
+          <h2>{c.grantTitle}</h2>
+          <p>{c.grantDesc}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<style>
+  .svc-grid { gap: 1.4rem; }
+  .svc-card { display: flex; flex-direction: column; }
+  .svc-icon { display: grid; place-items: center; width: 54px; height: 54px; border-radius: var(--radius); background: var(--grad-soft); color: var(--c-accent-strong); margin-bottom: 1rem; }
+  .svc-eyebrow { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-faint); font-weight: 700; font-family: var(--font-head); }
+  .svc-card h2 { font-size: var(--fs-600); margin-top: 0.3rem; }
+  .svc-lead { color: var(--c-muted); margin-top: 0.7rem; }
+  .svc-highlights { margin-top: 1.1rem; display: grid; gap: 0.5rem; }
+  .svc-highlights li { display: flex; align-items: center; gap: 0.5em; font-size: 0.94rem; }
+  .svc-highlights :global(svg) { color: var(--c-accent-strong); flex-shrink: 0; }
+  .svc-btn { margin-top: 1.4rem; align-self: flex-start; }
+
+  .ladder { display: grid; gap: 0.8rem; max-width: 820px; margin-inline: auto; }
+  .ladder-item { display: flex; gap: 1.1rem; align-items: flex-start; background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius); padding: 1.2rem 1.4rem; }
+  .ladder-num { flex-shrink: 0; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--grad-brand); color: #fff; font-family: var(--font-head); font-weight: 800; }
+  .ladder-item h3 { font-size: var(--fs-500); }
+  .ladder-item p { color: var(--c-muted); margin-top: 0.2rem; }
+
+  .grant-card { display: flex; gap: 1.4rem; align-items: flex-start; background: var(--c-surface-ink); color: #d7dade; border-radius: var(--radius-lg); padding: clamp(1.6rem, 4vw, 2.4rem); }
+  .grant-icon { flex-shrink: 0; display: grid; place-items: center; width: 56px; height: 56px; border-radius: var(--radius); background: var(--grad-brand); color: #fff; }
+  .grant-card h2 { color: #fff; font-size: var(--fs-600); }
+  .grant-card p { margin-top: 0.7rem; max-width: 70ch; }
+  @media (max-width: 540px) { .grant-card { flex-direction: column; } }
+</style>

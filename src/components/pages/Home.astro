@@ -1,0 +1,376 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTABand from '../CTABand.astro';
+import Icon from '../Icon.astro';
+import { getLang, localizePath } from '../../i18n/utils';
+import { useUI, ROUTES, SERVICE_NAV } from '../../i18n/ui';
+import { company } from '../../i18n/company';
+import { services } from '../../data/services';
+
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+
+const c = {
+  zh: {
+    metaDescription:
+      '遊遊股份有限公司（Twouring 遊遊）用 AI、數位工具、軟體與顧問方法，解決企業、政府與城市的營運、轉型與人才問題。四大入口：企業 AI 與數位轉型、城市與政府、場域與商家、國際交流與參訪。',
+    heroEyebrow: 'Tour your life together',
+    heroTitle: '用科技解決<span class="text-grad">企業、政府與城市</span>的問題',
+    heroLead:
+      '遊遊結合 AI、數位工具、軟體與顧問方法，協助企業、政府與城市把複雜的營運、數位轉型與人才問題，變成可執行、可驗收、可持續的專案。',
+    trustLabel: '合作與實績',
+    trust: ['花蓮縣政府', '台東縣政府', '國家發展委員會', '台灣數位遊牧者協會 TDNA'],
+    entryEyebrow: '四大顧問入口',
+    entryTitle: '你可以買什麼',
+    entryLead: '從企業 AI 與數位轉型，到城市與政府的科技與人才方案。每個入口都有清楚的痛點、解法與價格起點，先從一場 30 分鐘診斷開始。',
+    entryDesc: {
+      city: '用科技、數據與人才方案解決城市與政策問題（數位遊牧、地方創生為其中應用）。',
+      aiRemote: '先診斷流程，再導入 AI、數位工具與軟體，解決企業營運問題並落到 ROI。',
+      venue: '用數位工具與英文資訊，讓在地商家被國際客找到、理解與停留。',
+      international: '設計台灣與亞洲城市、企業之間可延續的科技與人才交流。',
+    },
+    ecoEyebrow: '策略 × 執行',
+    ecoTitle: '一套顧問判斷，背後是完整的執行生態系',
+    ecoLead:
+      '遊遊負責顧問、專案整合與品質把關；技術、場域與社群由集團夥伴承接，讓策略真的落地、可驗收。',
+    eco: [
+      { icon: 'compass', name: '遊遊', role: '顧問 · 專案整合 · PMO', desc: '對外顧問、政府案、城市策略、AI／遠距診斷與專案管理。' },
+      { icon: 'layers', name: '適才科技', role: '系統 · 產品 · 工程', desc: '軟體開發、AI 工具建置、系統導入與工程管理。' },
+      { icon: 'building', name: '言文字', role: '空間 · 活動 · 社群', desc: '實體活動、工作坊、場域實驗與地方社群接待。' },
+      { icon: 'users', name: 'TDNA 生態系', role: '公益 · 倡議 · 產業平台', desc: '數位遊牧公共倡議、政策溝通與產業連結（角色與授權清楚切分）。' },
+    ],
+    methodEyebrow: '方法論',
+    methodTitle: '不先賣方案，先用診斷找出最值得做的下一步',
+    method: [
+      { icon: 'target', t: '資格判斷', d: '30 分鐘判斷問題是否清楚、有無預算與決策者。' },
+      { icon: 'doc', t: '付費診斷', d: '盤點現況、利害關係人與資源，給出最高優先機會。' },
+      { icon: 'route', t: '顧問 / PMO', d: '把診斷轉成執行：例會、策略文件與 KPI 追蹤。' },
+      { icon: 'chart', t: '導入與年度', d: '專案導入、培訓與年度合作，並轉成可公開案例。' },
+    ],
+    whyEyebrow: '為什麼是遊遊',
+    whyTitle: '很難被一般軟體、活動或補助代寫公司複製的利基',
+    why: [
+      { icon: 'shield', t: '政府專案實績', d: '與花蓮、台東等地方政府及國發會合作的數位遊牧與地方專案經驗。' },
+      { icon: 'users', t: 'TDNA 生態系', d: '數位遊牧者協會與 Nomad Taiwan 社群、政策與產業連結。' },
+      { icon: 'bulb', t: 'KK 技術與產品', d: '橫跨技術架構、產品、遠端團隊與 AWS 解決方案的整合型負責人。' },
+      { icon: 'globe', t: '城市與國際連結', d: '日本、韓國、東南亞城市與新創、遊牧社群的實際交流經驗。' },
+    ],
+    marketEyebrow: '市場脈絡',
+    marketTitle: 'AI 與數位轉型，已是企業、政府與城市的必答題',
+    stats: [
+      { n: '2025–2028', l: '國發會 AI 新十大建設，全面協助中小企業導入 AI' },
+      { n: '兆元', l: '觀光署 Tourism 2030（2026–2030）目標兆元觀光產業' },
+      { n: '18.5M', l: '全球遠距與數位遊牧人才規模（MBO Partners 2025）' },
+      { n: 'Asia', l: '日韓與東南亞城市、企業與新創的科技交流連結' },
+    ],
+    casesEyebrow: '案例',
+    casesTitle: '把政府與城市專案，整理成可複製的方法',
+    casesLead: '依 TDNA 與遊遊角色切分原則揭露角色與授權；部分金額與細節依公司確認後公開。',
+    seeAllCases: '看全部案例',
+  },
+  en: {
+    metaDescription:
+      'Twouring Co., Ltd. uses AI, digital tools, software and advisory to solve operations, transformation and talent problems for companies, governments and cities. Four entry points: enterprise AI & digital transformation, cities & government, venues, and international exchange.',
+    heroEyebrow: 'Tour your life together',
+    heroTitle: 'Technology that solves problems for <span class="text-grad">companies, governments and cities</span>',
+    heroLead:
+      'Twouring combines AI, digital tools, software and advisory to turn complex operations, digital-transformation and talent problems for companies, governments and cities into projects that can be executed, audited and sustained.',
+    trustLabel: 'Selected partners & track record',
+    trust: ['Hualien County Gov.', 'Taitung County Gov.', 'National Development Council', 'Taiwan Digital Nomad Assoc. (TDNA)'],
+    entryEyebrow: 'Four advisory entry points',
+    entryTitle: 'What you can buy',
+    entryLead: 'Each entry point has clear pain points, solutions, packages and a starting price. Start with a 30-minute diagnostic.',
+    entryDesc: {
+      city: 'Upgrade digital nomadism from an event into a city talent, tourism and brand strategy.',
+      aiRemote: 'Diagnose first, then adopt AI and remote work — grounded in tools, training and ROI.',
+      venue: 'Make stays, cafés and local brands Nomad Ready international hosting nodes.',
+      international: 'Design lasting digital-nomad and corporate exchange between Taiwan and Asian cities.',
+    },
+    ecoEyebrow: 'Strategy × delivery',
+    ecoTitle: 'One advisory judgment, backed by a full delivery ecosystem',
+    ecoLead:
+      'Twouring owns advisory, project integration and quality control; technology, venues and community are handled by group partners, so strategy actually ships and can be audited.',
+    eco: [
+      { icon: 'compass', name: 'Twouring', role: 'Advisory · integration · PMO', desc: 'External advisory, government projects, city strategy, AI/remote diagnostics and project management.' },
+      { icon: 'layers', name: 'Adata', role: 'Systems · product · engineering', desc: 'Software development, AI tooling, system rollout and engineering management.' },
+      { icon: 'building', name: 'Yan-Wen-Zi', role: 'Space · events · community', desc: 'Physical events, workshops, venue experiments and local community hosting.' },
+      { icon: 'users', name: 'TDNA ecosystem', role: 'Non-profit · advocacy · platform', desc: 'Digital-nomad advocacy, policy and industry links — with clearly split roles and authorisation.' },
+    ],
+    methodEyebrow: 'Methodology',
+    methodTitle: 'We don’t pitch first — a diagnostic finds the next step worth taking',
+    method: [
+      { icon: 'target', t: 'Qualify', d: '30 minutes to confirm the problem, budget and decision-maker.' },
+      { icon: 'doc', t: 'Paid diagnostic', d: 'Map status quo, stakeholders and resources into top priorities.' },
+      { icon: 'route', t: 'Advisory / PMO', d: 'Turn diagnosis into delivery: cadence, strategy docs and KPIs.' },
+      { icon: 'chart', t: 'Rollout & annual', d: 'Rollout, training and annual work — turned into public cases.' },
+    ],
+    whyEyebrow: 'Why Twouring',
+    whyTitle: 'A niche that software, event or grant-writing firms can’t easily copy',
+    why: [
+      { icon: 'shield', t: 'Government track record', d: 'Digital-nomad and local projects with Hualien, Taitung and the National Development Council.' },
+      { icon: 'users', t: 'TDNA ecosystem', d: 'Digital Nomad Association and Nomad Taiwan community, policy and industry links.' },
+      { icon: 'bulb', t: 'KK’s tech & product', d: 'A founder spanning architecture, product, remote teams and AWS solutions.' },
+      { icon: 'globe', t: 'City & global links', d: 'Real exchange with cities and startup/nomad communities in Japan, Korea and SEA.' },
+    ],
+    marketEyebrow: 'Market context',
+    marketTitle: 'Digital nomadism has shifted from a lifestyle to a city and company issue',
+    stats: [
+      { n: '18.5M', l: 'U.S. digital nomads (MBO Partners 2025)' },
+      { n: '2026–2030', l: 'Tourism 2030 programme, targeting a trillion-NTD tourism economy' },
+      { n: '2025–2028', l: 'NDC Ten AI Initiatives helping SMEs adopt AI' },
+      { n: 'Asia', l: 'Startup & nomad community links across Japan, Korea and SEA' },
+    ],
+    casesEyebrow: 'Work',
+    casesTitle: 'Turning government and city projects into repeatable methods',
+    casesLead: 'Roles and authorisation are disclosed per the TDNA–Twouring role split; selected figures and details are published after company confirmation.',
+    seeAllCases: 'View all work',
+  },
+}[lang];
+
+const caseTeasers = {
+  zh: [
+    { tag: '城市 · 政府', title: '花蓮縣政府數位遊牧專案', desc: '把數位遊牧活動延伸為場域、社群與國際人才接待的城市行動。' },
+    { tag: '城市 · 政府', title: '台東縣政府數位遊牧專案', desc: '結合在地場域與國際遊牧社群，設計可延續的接待與交流。' },
+    { tag: '政策 · 生態系', title: '國發會 × 數位遊牧生態系', desc: '參與數位遊牧政策推動與 Nomad Taiwan 生態系連結。' },
+  ],
+  en: [
+    { tag: 'City · Gov', title: 'Hualien County digital-nomad project', desc: 'Extending nomad events into a city action across venues, community and talent hosting.' },
+    { tag: 'City · Gov', title: 'Taitung County digital-nomad project', desc: 'Combining local venues with the global nomad community into lasting hosting and exchange.' },
+    { tag: 'Policy · Ecosystem', title: 'NDC × digital-nomad ecosystem', desc: 'Contributing to digital-nomad policy and the Nomad Taiwan ecosystem.' },
+  ],
+}[lang];
+
+const webPageLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: company.brand,
+  url: company.siteUrl,
+  inLanguage: lang === 'zh' ? 'zh-Hant-TW' : 'en',
+  publisher: { '@id': company.siteUrl + '/#organization' },
+};
+---
+<BaseLayout
+  title={lang === 'zh' ? `${company.brand}｜用科技解決企業、政府與城市的問題` : `${company.brand}｜Technology consulting for companies, governments & cities`}
+  description={c.metaDescription}
+  path={ROUTES.home}
+  jsonLd={[webPageLd]}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <p class="eyebrow hero-eyebrow">{c.heroEyebrow}</p>
+      <h1 set:html={c.heroTitle} />
+      <p class="lead hero-lead">{c.heroLead}</p>
+      <div class="cluster hero-cta">
+        <a class="btn btn--grad btn--lg" href={lp(ROUTES.contact)}>{t.cta.primary}</a>
+        <a class="btn btn--ghost btn--lg" href={lp(ROUTES.services)}>{t.cta.secondary}</a>
+      </div>
+      <div class="trust">
+        <span class="trust-label">{c.trustLabel}</span>
+        <ul class="trust-list">
+          {c.trust.map((x) => (<li>{x}</li>))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 四大入口 -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.entryEyebrow}</p>
+        <h2>{c.entryTitle}</h2>
+        <p class="lead">{c.entryLead}</p>
+      </div>
+      <div class="grid grid--2 entry-grid">
+        {SERVICE_NAV.map((s) => (
+          <a class="card card--link entry-card" href={lp(services[s.key].path)}>
+            <span class="entry-icon"><Icon name={services[s.key].icon} size={26} /></span>
+            <h3>{t.serviceNav[s.key]}</h3>
+            <p>{c.entryDesc[s.key]}</p>
+            <span class="entry-go">{t.cta.viewService} <Icon name="arrow" size={18} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 策略 × 執行 生態系 -->
+  <section class="section section--ink">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--light">{c.ecoEyebrow}</p>
+        <h2>{c.ecoTitle}</h2>
+        <p class="lead lead--light">{c.ecoLead}</p>
+      </div>
+      <div class="grid grid--4 eco-grid">
+        {c.eco.map((e) => (
+          <div class="eco-card">
+            <span class="eco-icon"><Icon name={e.icon} size={24} /></span>
+            <h3>{e.name}</h3>
+            <p class="eco-role">{e.role}</p>
+            <p class="eco-desc">{e.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 方法論 -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">{c.methodEyebrow}</p>
+        <h2>{c.methodTitle}</h2>
+      </div>
+      <ol class="method-steps">
+        {c.method.map((m, i) => (
+          <li class="method-step">
+            <span class="method-num">{i + 1}</span>
+            <span class="method-ic"><Icon name={m.icon} size={22} /></span>
+            <h3>{m.t}</h3>
+            <p>{m.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 為什麼是遊遊 -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.whyEyebrow}</p>
+        <h2>{c.whyTitle}</h2>
+      </div>
+      <div class="grid grid--4 why-grid">
+        {c.why.map((w) => (
+          <div class="why-card">
+            <span class="why-icon"><Icon name={w.icon} size={24} /></span>
+            <h3>{w.t}</h3>
+            <p>{w.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 市場脈絡 -->
+  <section class="section section--warm">
+    <div class="container">
+      <div class="section-head center">
+        <p class="eyebrow">{c.marketEyebrow}</p>
+        <h2>{c.marketTitle}</h2>
+      </div>
+      <div class="grid grid--4 stat-grid">
+        {c.stats.map((s) => (
+          <div class="stat">
+            <p class="stat-n">{s.n}</p>
+            <p class="stat-l">{s.l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 案例 -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">{c.casesEyebrow}</p>
+        <h2>{c.casesTitle}</h2>
+        <p class="lead">{c.casesLead}</p>
+      </div>
+      <div class="grid grid--3">
+        {caseTeasers.map((cs) => (
+          <a class="card card--link case-teaser" href={lp(ROUTES.cases)}>
+            <span class="tag">{cs.tag}</span>
+            <h3>{cs.title}</h3>
+            <p>{cs.desc}</p>
+          </a>
+        ))}
+      </div>
+      <div class="cases-all">
+        <a class="btn btn--ghost" href={lp(ROUTES.cases)}>{c.seeAllCases} <Icon name="arrow" size={18} /></a>
+      </div>
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>
+
+<style>
+  /* HERO */
+  .hero { position: relative; overflow: hidden; padding-block: clamp(3.5rem, 9vw, 7rem); }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(1100px 520px at 78% -8%, rgba(255,177,153,0.42), transparent 60%),
+      radial-gradient(820px 460px at 12% 0%, rgba(255,8,68,0.12), transparent 55%),
+      #fff;
+  }
+  .hero-inner { max-width: 940px; }
+  .hero-eyebrow { letter-spacing: 0.14em; }
+  .hero h1 { font-size: clamp(2.3rem, 1.6rem + 3.6vw, 4.1rem); max-width: 20ch; }
+  .hero-lead { margin-top: 1.4rem; max-width: 56ch; font-size: var(--fs-500); }
+  .hero-cta { margin-top: 2rem; }
+  .trust { margin-top: 3rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.4rem; }
+  .trust-label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-faint); font-weight: 700; }
+  .trust-list { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; }
+  .trust-list li { font-family: var(--font-head); font-weight: 700; color: var(--c-muted); font-size: 0.96rem; }
+
+  /* 四大入口 */
+  .entry-grid { gap: 1.2rem; }
+  .entry-card { display: flex; flex-direction: column; gap: 0.6rem; }
+  .entry-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: var(--radius); background: var(--grad-soft); color: var(--c-accent-strong); margin-bottom: 0.4rem; }
+  .entry-card h3 { font-size: var(--fs-600); }
+  .entry-card p { color: var(--c-muted); }
+  .entry-go { margin-top: auto; padding-top: 0.6rem; display: inline-flex; align-items: center; gap: 0.4em; color: var(--c-accent-strong); font-family: var(--font-head); font-weight: 700; }
+  .entry-card:hover .entry-go :global(svg) { transform: translateX(4px); transition: transform 0.2s var(--ease); }
+
+  /* eco */
+  .eyebrow--light { color: var(--c-accent-2); }
+  .lead--light { color: #c4c9cf; }
+  .eco-grid { gap: 1.2rem; }
+  .eco-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-lg); padding: 1.5rem; }
+  .eco-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--radius); background: var(--grad-brand); color: #fff; margin-bottom: 1rem; }
+  .eco-card h3 { color: #fff; font-size: var(--fs-500); }
+  .eco-role { color: var(--c-accent-2); font-size: 0.85rem; font-weight: 600; margin: 0.3rem 0 0.6rem; font-family: var(--font-head); }
+  .eco-desc { color: #aeb3ba; font-size: 0.92rem; }
+
+  /* 方法論 */
+  .method-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  .method-step { background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: 1.5rem; position: relative; }
+  .method-num { position: absolute; top: 1.2rem; right: 1.4rem; font-family: var(--font-head); font-weight: 800; font-size: 1.6rem; color: var(--c-accent-2); }
+  .method-ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--c-surface-warm); color: var(--c-accent-strong); margin-bottom: 1rem; }
+  .method-step h3 { font-size: var(--fs-500); }
+  .method-step p { color: var(--c-muted); font-size: 0.94rem; margin-top: 0.4rem; }
+
+  /* why */
+  .why-grid { gap: 1.2rem; }
+  .why-card { padding: 0.4rem; }
+  .why-icon { display: grid; place-items: center; width: 50px; height: 50px; border-radius: var(--radius); background: var(--grad-soft); color: var(--c-accent-strong); margin-bottom: 1rem; }
+  .why-card h3 { font-size: var(--fs-500); }
+  .why-card p { color: var(--c-muted); margin-top: 0.4rem; }
+
+  /* stats */
+  .stat-grid { gap: 1.2rem; }
+  .stat { text-align: center; padding: 1rem; }
+  .stat-n { font-family: var(--font-head); font-weight: 800; font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); background: var(--grad-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-l { color: var(--c-muted); font-size: 0.92rem; margin-top: 0.4rem; }
+
+  /* cases */
+  .case-teaser { display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-start; }
+  .case-teaser h3 { font-size: var(--fs-500); }
+  .case-teaser p { color: var(--c-muted); }
+  .cases-all { margin-top: 1.8rem; }
+
+  @media (max-width: 960px) {
+    .method-steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .method-steps { grid-template-columns: 1fr; }
+  }
+</style>

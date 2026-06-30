@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../PageHero.astro';
+import Icon from '../Icon.astro';
+import { getLang, localizePath } from '../../i18n/utils';
+import { useUI, ROUTES } from '../../i18n/ui';
+import { company } from '../../i18n/company';
+
+const lang = getLang(Astro.currentLocale);
+const t = useUI(lang);
+const lp = (p: string) => localizePath(p, lang);
+
+// 聯絡表單後端：Google Apps Script Web App URL（寫入 Google Sheet + 轉寄 us@twouring.com）。
+// 於部署環境設定 PUBLIC_CONTACT_ENDPOINT；未設定時表單自動退回 mailto。
+const ENDPOINT = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '';
+
+const c = {
+  zh: {
+    eyebrow: '聯絡我們',
+    title: '先聊 30 分鐘，判斷最值得投入的下一步',
+    lead: '留下需求，我們會在兩個工作日內回覆，並安排一場 30 分鐘的資格判斷會議。',
+    metaDescription: '聯絡遊遊股份有限公司（Twouring 遊遊）：預約 30 分鐘數位遊牧、AI 與遠距工作顧問診斷會議。聯絡信箱 us@twouring.com。',
+    prepareTitle: '會議前，可以先準備',
+    prepare: ['你想解決的問題或目標', '目前的進度與既有資源', '時程與大致預算範圍', '誰是決策者與內部窗口'],
+    form: {
+      name: '姓名', company: '單位 / 公司', email: '電子郵件', type: '想談的方向', message: '需求說明',
+      typePlaceholder: '請選擇',
+      types: ['城市與政府（數位遊牧城市策略）', '企業 AI 與遠距工作', '場域與商家（Nomad Ready）', '國際交流與參訪', '補助 / 標案策略', '演講 / 工作坊 / 其他'],
+      messagePlaceholder: '簡單描述你的情況、目標與時程⋯⋯',
+      consent: '我已閱讀並同意',
+      privacy: '隱私權政策',
+      submit: '送出並預約診斷',
+      sending: '送出中⋯',
+      successTitle: '已收到，謝謝你！',
+      success: '我們會在兩個工作日內回覆，並安排 30 分鐘資格判斷會議。若屆時未收到回覆，請改寄 us@twouring.com。',
+      errorTitle: '送出遇到問題',
+      error: '請改用 Email 直接聯絡我們：',
+      required: '此欄為必填',
+    },
+    infoTitle: '其他聯絡方式',
+    emailLabel: '電子郵件',
+    addrLabel: '地址',
+    linkedinLabel: 'LinkedIn（主要正式渠道）',
+    note: '我們以 LinkedIn 作為主要正式社群渠道；目前不經營 Instagram 與 Facebook。',
+  },
+  en: {
+    eyebrow: 'Contact',
+    title: 'Start with a 30-minute call to find the next step worth taking',
+    lead: 'Leave your details and we’ll reply within two business days and set up a 30-minute qualification call.',
+    metaDescription: 'Contact Twouring Co., Ltd. (Twouring 遊遊): book a 30-minute diagnostic call on digital nomadism, AI and remote work. Email us@twouring.com.',
+    prepareTitle: 'Before the call, it helps to have',
+    prepare: ['The problem or goal you want to solve', 'Current progress and existing resources', 'Timeline and rough budget range', 'Who the decision-maker and internal contact are'],
+    form: {
+      name: 'Name', company: 'Organisation / company', email: 'Email', type: 'What you’d like to discuss', message: 'Your needs',
+      typePlaceholder: 'Please select',
+      types: ['Cities & government (nomad city strategy)', 'Enterprise AI & remote work', 'Venues & business (Nomad Ready)', 'International exchange & visits', 'Grants / tender strategy', 'Talks / workshops / other'],
+      messagePlaceholder: 'Briefly describe your situation, goals and timeline…',
+      consent: 'I have read and agree to the',
+      privacy: 'Privacy Policy',
+      submit: 'Send & book a call',
+      sending: 'Sending…',
+      successTitle: 'Got it — thank you!',
+      success: 'We’ll reply within two business days and set up a 30-minute qualification call. If you don’t hear back by then, please email us@twouring.com.',
+      errorTitle: 'Something went wrong',
+      error: 'Please email us directly instead:',
+      required: 'This field is required',
+    },
+    infoTitle: 'Other ways to reach us',
+    emailLabel: 'Email',
+    addrLabel: 'Address',
+    linkedinLabel: 'LinkedIn (primary official channel)',
+    note: 'LinkedIn is our primary official channel; we don’t currently run Instagram or Facebook.',
+  },
+}[lang];
+---
+<BaseLayout title={lang === 'zh' ? '聯絡我們' : 'Contact'} description={c.metaDescription} path={ROUTES.contact}>
+  <PageHero eyebrow={c.eyebrow} title={c.title} lead={c.lead} crumbs={[{ label: t.nav.contact }]} />
+
+  <section class="section section--tight">
+    <div class="container contact-grid">
+      <!-- 表單 -->
+      <div class="form-col">
+        <form id="contact-form" data-endpoint={ENDPOINT} novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="cf-name">{c.form.name} <span class="req">*</span></label>
+              <input id="cf-name" name="name" type="text" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="cf-company">{c.form.company}</label>
+              <input id="cf-company" name="company" type="text" autocomplete="organization" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="cf-email">{c.form.email} <span class="req">*</span></label>
+            <input id="cf-email" name="email" type="email" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="cf-type">{c.form.type}</label>
+            <select id="cf-type" name="type">
+              <option value="" disabled selected>{c.form.typePlaceholder}</option>
+              {c.form.types.map((ty) => (<option value={ty}>{ty}</option>))}
+            </select>
+          </div>
+          <div class="field">
+            <label for="cf-message">{c.form.message} <span class="req">*</span></label>
+            <textarea id="cf-message" name="message" rows="5" required placeholder={c.form.messagePlaceholder}></textarea>
+          </div>
+          <label class="consent">
+            <input type="checkbox" name="consent" required />
+            <span>{c.form.consent} <a href={lp(ROUTES.privacy)}>{c.form.privacy}</a></span>
+          </label>
+          <input type="text" name="company_url" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true" />
+          <button type="submit" class="btn btn--primary btn--lg btn--block" id="cf-submit" data-sending={c.form.sending}>{c.form.submit}</button>
+          <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="form-success" id="cf-success" hidden>
+          <span class="success-icon"><Icon name="check" size={30} /></span>
+          <h2>{c.form.successTitle}</h2>
+          <p>{c.form.success}</p>
+        </div>
+      </div>
+
+      <!-- 側欄資訊 -->
+      <aside class="info-col">
+        <div class="info-card">
+          <h2>{c.infoTitle}</h2>
+          <ul class="info-list">
+            <li>
+              <span class="info-ic"><Icon name="mail" size={18} /></span>
+              <div><span class="info-label">{c.emailLabel}</span><a href={`mailto:${company.email}`}>{company.email}</a></div>
+            </li>
+            <li>
+              <span class="info-ic"><Icon name="pin" size={18} /></span>
+              <div><span class="info-label">{c.addrLabel}</span><span>{company.address[lang]}</span></div>
+            </li>
+            <li>
+              <span class="info-ic"><Icon name="users" size={18} /></span>
+              <div><span class="info-label">{c.linkedinLabel}</span><a href={company.linkedin} target="_blank" rel="noopener">{company.brand}</a></div>
+            </li>
+          </ul>
+          <p class="info-note">{c.note}</p>
+        </div>
+
+        <div class="prepare-card">
+          <h3>{c.prepareTitle}</h3>
+          <ul>{c.prepare.map((p) => (<li><Icon name="check" size={16} /> {p}</li>))}</ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; align-items: start; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .field { margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .field label { font-family: var(--font-head); font-weight: 700; font-size: 0.92rem; }
+  .req { color: var(--c-accent-strong); }
+  .field input, .field select, .field textarea {
+    font-family: var(--font-body); font-size: 1rem; color: var(--c-ink);
+    padding: 0.7em 0.9em; border: 1.5px solid var(--c-line-strong); border-radius: var(--radius); background: #fff; width: 100%;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .field textarea { resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--c-accent); box-shadow: var(--ring); }
+
+  .consent { display: flex; gap: 0.6rem; align-items: flex-start; margin: 0.4rem 0 1.2rem; font-size: 0.92rem; color: var(--c-muted); }
+  .consent input { margin-top: 0.25rem; width: 18px; height: 18px; accent-color: var(--c-accent-strong); flex-shrink: 0; }
+  .consent a { text-decoration: underline; text-underline-offset: 2px; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+  .form-status { margin-top: 0.9rem; font-size: 0.92rem; }
+  .form-status.error { color: var(--c-accent-strong); }
+  .form-success { text-align: center; padding: 2.5rem 1.5rem; border: 1px solid #d7eede; background: #f3faf5; border-radius: var(--radius-lg); }
+  .success-icon { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: #1a8a4f; color: #fff; margin-bottom: 1rem; }
+  .form-success h2 { font-size: var(--fs-600); }
+  .form-success p { color: var(--c-muted); margin-top: 0.5rem; }
+
+  .info-card, .prepare-card { background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--radius-lg); padding: 1.6rem; }
+  .prepare-card { margin-top: 1.2rem; }
+  .info-card h2 { font-size: var(--fs-500); margin-bottom: 1.2rem; }
+  .info-list { display: grid; gap: 1.1rem; }
+  .info-list li { display: flex; gap: 0.8rem; align-items: flex-start; }
+  .info-ic { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #fff; color: var(--c-accent-strong); flex-shrink: 0; box-shadow: var(--shadow-sm); }
+  .info-label { display: block; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--c-faint); font-weight: 700; font-family: var(--font-head); }
+  .info-note { margin-top: 1.2rem; font-size: 0.85rem; color: var(--c-faint); }
+  .prepare-card h3 { font-size: var(--fs-500); margin-bottom: 1rem; }
+  .prepare-card ul { display: grid; gap: 0.6rem; }
+  .prepare-card li { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.94rem; }
+  .prepare-card :global(svg) { color: var(--c-accent-strong); flex-shrink: 0; margin-top: 3px; }
+
+  @media (max-width: 820px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('cf-status');
+  const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement | null;
+  const successEl = document.getElementById('cf-success');
+
+  const EMAIL = 'us@twouring.com';
+  const IS_EN = document.documentElement.lang.startsWith('en');
+
+  function buildMailto(data: Record<string, string>): string {
+    const L = IS_EN
+      ? { subj: '[Website inquiry]', name: 'Name', company: 'Organisation', email: 'Email', topic: 'Topic' }
+      : { subj: '[官網詢問]', name: '姓名', company: '單位', email: 'Email', topic: '方向' };
+    const subject = encodeURIComponent(`${L.subj} ${data.name || ''} ${data.company || ''}`.trim());
+    const body = encodeURIComponent(
+      `${L.name}: ${data.name || ''}\n${L.company}: ${data.company || ''}\n${L.email}: ${data.email || ''}\n${L.topic}: ${data.type || ''}\n\n${data.message || ''}`,
+    );
+    return `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+  }
+
+  if (form && submitBtn && statusEl && successEl) {
+    const sendingLabel = submitBtn.dataset.sending || '送出中⋯ / Sending…';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = '';
+      statusEl.classList.remove('error');
+
+      // honeypot：若被填寫視為機器人，直接忽略
+      if ((form.elements.namedItem('company_url') as HTMLInputElement)?.value) return;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const fd = new FormData(form);
+      const data: Record<string, string> = {};
+      fd.forEach((v, k) => { if (k !== 'company_url') data[k] = String(v); });
+      data.locale = document.documentElement.lang;
+      data.page = location.href;
+
+      const endpoint = form.dataset.endpoint || '';
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = sendingLabel;
+
+      const showSuccess = () => {
+        form.hidden = true;
+        successEl.hidden = false;
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+      const showError = () => {
+        statusEl.classList.add('error');
+        const label = IS_EN ? 'Please email us:' : '請改用 Email 聯絡：';
+        statusEl.innerHTML = `${label} <a href="${buildMailto(data)}">${EMAIL}</a>`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      };
+
+      if (!endpoint) {
+        // 未設定後端：直接開啟 mailto，並顯示成功狀態
+        window.location.href = buildMailto(data);
+        showSuccess();
+        return;
+      }
+
+      try {
+        // Apps Script 無法回傳 CORS 標頭，使用 no-cors：資料仍送達，回應為 opaque。
+        // fetch resolve 即視為送出成功（真正的傳輸失敗會 reject → 退回 mailto）。
+        await fetch(endpoint, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: new URLSearchParams(data),
+        });
+        showSuccess();
+      } catch {
+        showError();
+      }
+    });
+  }
+</script>
