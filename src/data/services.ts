@@ -28,7 +28,7 @@ export interface ServiceContent {
 }
 
 const zhFootnote =
-  '以上為服務起點價格，實際依專案範圍、合作單位與交付深度報價；集團內優惠與內部成本不對外列示，正式合作以書面報價與合約為準。';
+  '以上為服務起點價格，實際依專案範圍、合作單位與交付深度報價，正式合作以書面報價與合約為準。';
 const enFootnote =
   'Prices shown are starting points. Actual quotes depend on scope, partners and delivery depth; engagements are confirmed by written quote and contract.';
 
